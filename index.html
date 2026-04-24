@@ -22,12 +22,13 @@
             --warning: #f5a623;
             --highlight-yellow: #fff3b8;
             --highlight-border: #f0c040;
+            --highlight-fuzzy-bg: #ffe8d6;
+            --highlight-fuzzy-border: #f0a060;
             --radius: 10px;
             --radius-sm: 6px;
             --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
             --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
             --transition: 0.2s ease;
-            --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', 'Monaco', monospace;
         }
 
         * {
@@ -46,7 +47,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ========== 侧边栏 ========== */
         .sidebar {
             width: 220px;
             min-width: 220px;
@@ -89,7 +89,7 @@
             flex-direction: column;
             gap: 4px;
         }
-        .sidebar-nav .nav-item {
+        .nav-item {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -101,19 +101,17 @@
             font-weight: 500;
             transition: all var(--transition);
             text-decoration: none;
-            position: relative;
-            letter-spacing: -0.1px;
         }
-        .sidebar-nav .nav-item:hover {
+        .nav-item:hover {
             background: var(--sidebar-hover);
             color: #d0d5dd;
         }
-        .sidebar-nav .nav-item.active {
+        .nav-item.active {
             background: rgba(79, 110, 247, 0.2);
             color: #ffffff;
             font-weight: 600;
         }
-        .sidebar-nav .nav-item.active::before {
+        .nav-item.active::before {
             content: '';
             position: absolute;
             left: 0;
@@ -124,7 +122,7 @@
             border-radius: 3px;
             background: var(--accent);
         }
-        .sidebar-nav .nav-icon {
+        .nav-icon {
             width: 20px;
             text-align: center;
             font-size: 15px;
@@ -138,16 +136,13 @@
             text-align: center;
         }
 
-        /* ========== 主内容区 ========== */
         .main-content {
             flex: 1;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            position: relative;
         }
 
-        /* ========== 页面容器 ========== */
         .page {
             display: none;
             flex: 1;
@@ -158,12 +153,6 @@
             display: flex;
         }
 
-        /* ========== 工作台页面 ========== */
-        .workbench {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
         .workbench-toolbar {
             display: flex;
             align-items: center;
@@ -188,64 +177,35 @@
             border: 1px solid transparent;
             transition: all var(--transition);
             white-space: nowrap;
-            letter-spacing: -0.1px;
             font-family: inherit;
             outline: none;
-        }
-        .btn:active {
-            transform: scale(0.97);
         }
         .btn-primary {
             background: var(--accent);
             color: #fff;
-            border-color: var(--accent);
         }
         .btn-primary:hover {
             background: #3d5de0;
-            border-color: #3d5de0;
         }
         .btn-danger {
             background: #fff;
             color: var(--danger);
             border-color: #fdd;
         }
-        .btn-danger:hover {
-            background: #fff5f5;
-        }
         .btn-outline {
             background: #fff;
             color: var(--text);
             border-color: var(--border);
-        }
-        .btn-outline:hover {
-            background: #f9fafb;
-            border-color: #ccd;
-        }
-        .btn-sm {
-            padding: 5px 10px;
-            font-size: 12px;
-            border-radius: 4px;
-        }
-        .btn-xs {
-            padding: 3px 8px;
-            font-size: 11px;
-            border-radius: 3px;
         }
         .btn-recording {
             background: #f54a4a !important;
             border-color: #f54a4a !important;
             color: #fff !important;
             animation: pulse-rec 1.6s infinite;
-            box-shadow: 0 0 0 0 rgba(245, 74, 74, 0.5);
         }
         @keyframes pulse-rec {
-            0%,
-            100% {
-                box-shadow: 0 0 0 0 rgba(245, 74, 74, 0.55);
-            }
-            50% {
-                box-shadow: 0 0 0 14px rgba(245, 74, 74, 0);
-            }
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 74, 74, 0.55); }
+            50% { box-shadow: 0 0 0 14px rgba(245, 74, 74, 0); }
         }
         .recording-dot {
             width: 8px;
@@ -255,13 +215,8 @@
             animation: blink-dot 0.7s infinite;
         }
         @keyframes blink-dot {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.2;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
         }
         .lang-switch {
             display: flex;
@@ -272,40 +227,37 @@
             padding: 3px;
             border: 1px solid var(--border);
         }
-        .lang-switch .lang-option {
+        .lang-option {
             padding: 6px 13px;
             border-radius: 18px;
             cursor: pointer;
             font-size: 12px;
             font-weight: 500;
-            transition: all var(--transition);
             color: var(--text-secondary);
-            border: none;
             background: transparent;
+            border: none;
             font-family: inherit;
         }
-        .lang-switch .lang-option.active {
+        .lang-option.active {
             background: #fff;
             color: var(--accent);
             font-weight: 600;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
         }
 
         .workbench-body {
             display: flex;
             flex: 1;
             overflow: hidden;
-            gap: 0;
         }
         .transcript-panel {
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
             border-right: 1px solid var(--border);
             background: #fafbfc;
         }
-        .transcript-panel .panel-header {
+        .panel-header {
             padding: 12px 18px;
             font-weight: 600;
             font-size: 13px;
@@ -316,7 +268,6 @@
             align-items: center;
             justify-content: space-between;
             flex-shrink: 0;
-            letter-spacing: -0.1px;
         }
         .transcript-textarea {
             flex: 1;
@@ -328,10 +279,8 @@
             word-break: break-word;
             background: #fafbfc;
             color: var(--text);
-            letter-spacing: -0.1px;
-            min-height: 0;
         }
-        .transcript-textarea .highlight-term {
+        .highlight-term {
             background: var(--highlight-yellow);
             border-bottom: 2px solid var(--highlight-border);
             padding: 1px 2px;
@@ -339,17 +288,15 @@
             cursor: pointer;
             font-weight: 500;
             transition: background 0.15s;
-            position: relative;
         }
-        .transcript-textarea .highlight-term:hover {
+        .highlight-term:hover {
             background: #ffe680;
-            border-bottom-color: #e0a800;
         }
-        .transcript-textarea .highlight-term.fuzzy {
-            background: #ffe8d6;
-            border-bottom: 2px dashed #f0a060;
+        .highlight-term.fuzzy {
+            background: var(--highlight-fuzzy-bg);
+            border-bottom: 2px dashed var(--highlight-fuzzy-border);
         }
-        .transcript-textarea .interim-text {
+        .interim-text {
             color: #999;
             font-style: italic;
         }
@@ -358,7 +305,6 @@
             text-align: center;
             padding-top: 60px;
             font-size: 14px;
-            user-select: none;
         }
 
         .terms-panel {
@@ -367,20 +313,6 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            background: #fff;
-            transition: width var(--transition);
-        }
-        .terms-panel .panel-header {
-            padding: 12px 16px;
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--text-secondary);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-shrink: 0;
-            letter-spacing: -0.1px;
             background: #fff;
         }
         .terms-list {
@@ -396,54 +328,27 @@
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             padding: 12px 14px;
-            transition: all var(--transition);
             animation: slideIn 0.3s ease;
-            cursor: default;
         }
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .term-card.new-highlight {
             border-color: var(--accent);
             background: var(--accent-light);
-            box-shadow: 0 0 0 3px rgba(79, 110, 247, 0.08);
-            animation: pulseHighlight 0.6s ease;
+            box-shadow: 0 0 0 3px rgba(79,110,247,0.08);
         }
-        @keyframes pulseHighlight {
-            0%,
-            100% {
-                box-shadow: 0 0 0 3px rgba(79, 110, 247, 0.08);
-            }
-            50% {
-                box-shadow: 0 0 0 10px rgba(79, 110, 247, 0);
-            }
-        }
-        .term-card .term-main {
+        .term-main {
             display: flex;
             align-items: center;
             gap: 8px;
             font-weight: 600;
             font-size: 14px;
-            color: var(--text);
         }
-        .term-card .term-main .term-separator {
-            color: #ccc;
-            font-weight: 400;
-        }
-        .term-card .term-desc {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-            line-height: 1.4;
-        }
-        .term-card .term-category {
+        .term-separator { color: #ccc; font-weight: 400; }
+        .term-desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+        .term-category {
             display: inline-block;
             font-size: 10px;
             padding: 2px 8px;
@@ -451,28 +356,20 @@
             background: #eef1fe;
             color: var(--accent);
             margin-top: 6px;
-            font-weight: 500;
         }
-        .term-card .match-type {
+        .match-type {
             font-size: 10px;
             padding: 2px 6px;
             border-radius: 3px;
             font-weight: 500;
         }
-        .match-exact {
-            background: #d4fce4;
-            color: #1a7d3d;
-        }
-        .match-fuzzy {
-            background: #fff3d6;
-            color: #a07020;
-        }
+        .match-exact { background: #d4fce4; color: #1a7d3d; }
+        .match-fuzzy { background: #fff3d6; color: #a07020; }
         .terms-list-empty {
             text-align: center;
             color: #c0c5cc;
             padding-top: 40px;
             font-size: 13px;
-            user-select: none;
         }
         .badge-count {
             font-size: 11px;
@@ -483,13 +380,7 @@
             font-weight: 600;
         }
 
-        /* ========== 术语库页面 ========== */
-        .termbase-page {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            background: #fafbfc;
-        }
+        /* 术语库页面 */
         .termbase-toolbar {
             display: flex;
             align-items: center;
@@ -517,14 +408,10 @@
         }
         .search-input:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(79, 110, 247, 0.08);
+            box-shadow: 0 0 0 3px rgba(79,110,247,0.08);
             background: #fff;
         }
-        .termbase-table-wrap {
-            flex: 1;
-            overflow: auto;
-            padding: 0 20px 20px;
-        }
+        .termbase-table-wrap { flex: 1; overflow: auto; padding: 0 20px 20px; }
         .termbase-table {
             width: 100%;
             border-collapse: collapse;
@@ -534,11 +421,6 @@
             overflow: hidden;
             box-shadow: var(--shadow);
         }
-        .termbase-table thead {
-            position: sticky;
-            top: 0;
-            z-index: 1;
-        }
         .termbase-table th {
             background: #f9fafb;
             padding: 12px 14px;
@@ -547,57 +429,24 @@
             color: var(--text-secondary);
             border-bottom: 2px solid var(--border);
             font-size: 12px;
-            letter-spacing: -0.1px;
             white-space: nowrap;
         }
         .termbase-table td {
             padding: 10px 14px;
             border-bottom: 1px solid #f0f1f3;
-            color: var(--text);
-            vertical-align: middle;
         }
-        .termbase-table tbody tr {
-            transition: background var(--transition);
-        }
-        .termbase-table tbody tr:hover {
-            background: #f9fafb;
-        }
-        .termbase-table .actions-cell {
-            display: flex;
-            gap: 6px;
-        }
-        .termbase-empty {
-            text-align: center;
-            padding: 60px 20px;
-            color: #c0c5cc;
-        }
-        .termbase-empty .empty-icon {
-            font-size: 48px;
-            display: block;
-            margin-bottom: 12px;
-        }
+        .termbase-table tbody tr:hover { background: #f9fafb; }
+        .termbase-empty { text-align: center; padding: 60px; color: #c0c5cc; }
 
-        /* ========== 模态框 ========== */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
             z-index: 100;
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: fadeIn 0.2s ease;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            display: none;
         }
         .modal {
             background: #fff;
@@ -606,167 +455,42 @@
             width: 90%;
             max-width: 520px;
             box-shadow: var(--shadow-md);
-            animation: modalIn 0.25s ease;
         }
-        @keyframes modalIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px) scale(0.96);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        .modal h3 {
-            font-size: 16px;
-            margin-bottom: 16px;
-            letter-spacing: -0.2px;
-        }
-        .modal .form-group {
-            margin-bottom: 12px;
-        }
-        .modal .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-            letter-spacing: -0.1px;
-        }
-        .modal .form-group input,
-        .modal .form-group textarea {
+        .modal h3 { margin-bottom: 16px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; }
+        .form-group input, .form-group textarea {
             width: 100%;
             padding: 9px 12px;
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             font-size: 13px;
             font-family: inherit;
-            outline: none;
-            transition: all var(--transition);
             resize: vertical;
         }
-        .modal .form-group input:focus,
-        .modal .form-group textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(79, 110, 247, 0.06);
-        }
-        .modal .form-group textarea {
-            min-height: 60px;
-            font-size: 12px;
-        }
-        .modal-actions {
-            display: flex;
-            gap: 8px;
-            justify-content: flex-end;
-            margin-top: 16px;
-        }
-        .required-star {
-            color: var(--danger);
-        }
+        .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+        .required-star { color: var(--danger); }
 
-        /* ========== Toast ========== */
         .toast {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 20px; right: 20px;
             padding: 12px 20px;
             border-radius: var(--radius-sm);
             color: #fff;
             font-size: 13px;
             font-weight: 500;
             z-index: 200;
-            animation: toastIn 0.3s ease, toastOut 0.3s ease 2.5s forwards;
             box-shadow: var(--shadow-md);
-            letter-spacing: -0.1px;
+            animation: toastIn 0.3s ease, toastOut 0.3s ease 2.5s forwards;
         }
-        @keyframes toastIn {
-            from {
-                opacity: 0;
-                transform: translateX(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        @keyframes toastOut {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateX(40px);
-            }
-        }
-        .toast-success {
-            background: #2dbf6e;
-        }
-        .toast-error {
-            background: #f54a4a;
-        }
-        .toast-info {
-            background: #4f6ef7;
-        }
-
-        /* ========== 滚动条 ========== */
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #d0d5dd;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #b0b5c0;
-        }
-
-        /* ========== 响应式 ========== */
-        @media (max-width: 900px) {
-            .sidebar {
-                width: 60px;
-                min-width: 60px;
-            }
-            .sidebar-logo .logo-text,
-            .sidebar-nav .nav-item span:not(.nav-icon) {
-                display: none;
-            }
-            .sidebar-nav .nav-item {
-                justify-content: center;
-                padding: 11px 8px;
-            }
-            .terms-panel {
-                width: 240px;
-                min-width: 200px;
-            }
-            .sidebar-footer {
-                display: none;
-            }
-        }
-        @media (max-width: 600px) {
-            .workbench-body {
-                flex-direction: column;
-            }
-            .terms-panel {
-                width: 100%;
-                min-width: 100%;
-                max-height: 40%;
-                border-top: 1px solid var(--border);
-            }
-            .transcript-panel {
-                border-right: none;
-                flex: 1;
-            }
-        }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateX(40px); } }
+        .toast-success { background: #2dbf6e; }
+        .toast-error { background: #f54a4a; }
+        .toast-info { background: #4f6ef7; }
     </style>
 </head>
 <body>
-    <!-- ==================== 侧边栏 ==================== -->
     <aside class="sidebar">
         <div class="sidebar-logo">
             <div class="logo-icon">🎙</div>
@@ -780,17 +504,15 @@
                 <span class="nav-icon">📚</span> <span>术语库</span>
             </div>
         </nav>
-        <div class="sidebar-footer">v1.0 · Web Speech API</div>
+        <div class="sidebar-footer">v2.0 · Web Speech API</div>
     </aside>
 
-    <!-- ==================== 主内容区 ==================== -->
     <main class="main-content">
         <!-- 工作台页面 -->
         <div class="page active" id="page-workbench">
             <div class="workbench">
-                <!-- 工具栏 -->
                 <div class="workbench-toolbar">
-                    <button class="btn btn-primary" id="btnRecord" title="开始/停止录音">
+                    <button class="btn btn-primary" id="btnRecord">
                         <span id="btnRecordIcon">🎤</span>
                         <span id="btnRecordText">开始录音</span>
                     </button>
@@ -800,16 +522,10 @@
                     </div>
                     <span style="font-size:12px;color:var(--text-secondary);" id="statusIndicator">⚪ 就绪</span>
                     <span style="flex:1;"></span>
-                    <button class="btn btn-outline btn-sm" id="btnExport" title="导出转写文本为 DOCX">
-                        📥 导出 DOCX
-                    </button>
-                    <button class="btn btn-outline btn-sm" id="btnClearTranscript" title="清空当前转写">
-                        🗑 清空
-                    </button>
+                    <button class="btn btn-outline btn-sm" id="btnExport">📥 导出 DOCX</button>
+                    <button class="btn btn-outline btn-sm" id="btnClearTranscript">🗑 清空</button>
                 </div>
-                <!-- 主体：左转写 + 右术语 -->
                 <div class="workbench-body">
-                    <!-- 左侧转写面板 -->
                     <div class="transcript-panel">
                         <div class="panel-header">
                             <span>📝 实时转写文本</span>
@@ -819,7 +535,6 @@
                             <div class="transcript-placeholder">点击「开始录音」按钮，实时转写将在此显示…</div>
                         </div>
                     </div>
-                    <!-- 右侧术语面板 -->
                     <div class="terms-panel" id="termsPanel">
                         <div class="panel-header">
                             <span>🔍 匹配术语</span>
@@ -845,46 +560,23 @@
                 <div class="termbase-table-wrap">
                     <table class="termbase-table" id="termbaseTable">
                         <thead>
-                            <tr>
-                                <th>术语中文</th>
-                                <th>术语英文</th>
-                                <th>解释</th>
-                                <th>分类</th>
-                                <th>操作</th>
-                            </tr>
+                            <tr><th>术语中文</th><th>术语英文</th><th>解释</th><th>分类</th><th>操作</th></tr>
                         </thead>
-                        <tbody id="termbaseTbody">
-                        </tbody>
+                        <tbody id="termbaseTbody"></tbody>
                     </table>
-                    <div class="termbase-empty" id="termbaseEmpty">
-                        <span class="empty-icon">📭</span>
-                        术语库为空，点击「添加术语」或「批量导入」开始
-                    </div>
+                    <div class="termbase-empty" id="termbaseEmpty">📭 术语库为空，点击「添加术语」或「批量导入」开始</div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- ==================== 模态框：添加/编辑术语 ==================== -->
-    <div class="modal-overlay" id="modalOverlay" style="display:none;">
+    <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
             <h3 id="modalTitle">添加术语</h3>
-            <div class="form-group">
-                <label><span class="required-star">*</span> 术语中文</label>
-                <input type="text" id="inputTermCN" placeholder="例如：人工智能">
-            </div>
-            <div class="form-group">
-                <label><span class="required-star">*</span> 术语英文</label>
-                <input type="text" id="inputTermEN" placeholder="例如：Artificial Intelligence">
-            </div>
-            <div class="form-group">
-                <label>术语解释 <small style="color:#999;">（选填）</small></label>
-                <textarea id="inputTermDesc" placeholder="简要描述该术语…"></textarea>
-            </div>
-            <div class="form-group">
-                <label>分类 <small style="color:#999;">（选填）</small></label>
-                <input type="text" id="inputTermCat" placeholder="例如：AI / 医学 / 法律">
-            </div>
+            <div class="form-group"><label><span class="required-star">*</span> 术语中文</label><input type="text" id="inputTermCN" placeholder="例如：人工智能"></div>
+            <div class="form-group"><label><span class="required-star">*</span> 术语英文</label><input type="text" id="inputTermEN" placeholder="例如：Artificial Intelligence"></div>
+            <div class="form-group"><label>术语解释 <small style="color:#999;">（选填）</small></label><textarea id="inputTermDesc" placeholder="简要描述该术语…"></textarea></div>
+            <div class="form-group"><label>分类 <small style="color:#999;">（选填）</small></label><input type="text" id="inputTermCat" placeholder="例如：AI / 医学 / 法律"></div>
             <input type="hidden" id="inputEditId" value="">
             <div class="modal-actions">
                 <button class="btn btn-outline btn-sm" id="btnModalCancel">取消</button>
@@ -893,25 +585,20 @@
         </div>
     </div>
 
-    <!-- 隐藏的文件上传input -->
     <input type="file" id="batchFileInput" accept=".csv,.json" style="display:none;">
 
     <script>
         (function() {
-            // ==================== 常量 ====================
             const STORAGE_KEY = 'asr_termbase_v2';
-            const MAX_CONTEXT_CHARS = 80; // 跨边界匹配保留的字符数
 
-            // ==================== DOM引用 ====================
+            // DOM引用
             const $ = (sel) => document.querySelector(sel);
             const $$ = (sel) => document.querySelectorAll(sel);
 
-            // 导航
             const navItems = $$('.sidebar-nav .nav-item');
             const pageWorkbench = $('#page-workbench');
             const pageTermbase = $('#page-termbase');
 
-            // 工作台
             const btnRecord = $('#btnRecord');
             const btnRecordIcon = $('#btnRecordIcon');
             const btnRecordText = $('#btnRecordText');
@@ -924,7 +611,6 @@
             const btnClearTranscript = $('#btnClearTranscript');
             const langOptions = $$('.lang-switch .lang-option');
 
-            // 术语库
             const searchInput = $('#searchInput');
             const termbaseTbody = $('#termbaseTbody');
             const termbaseEmpty = $('#termbaseEmpty');
@@ -933,7 +619,6 @@
             const btnBatchUpload = $('#btnBatchUpload');
             const batchFileInput = $('#batchFileInput');
 
-            // 模态框
             const modalOverlay = $('#modalOverlay');
             const modalTitle = $('#modalTitle');
             const inputTermCN = $('#inputTermCN');
@@ -944,971 +629,662 @@
             const btnModalCancel = $('#btnModalCancel');
             const btnModalSave = $('#btnModalSave');
 
-            // ==================== 状态 ====================
-            let termBase = []; // [{id, chinese, english, description, category, createdAt}]
+            // 状态
+            let termBase = [];
             let currentLang = 'zh-CN';
             let isRecording = false;
             let recognition = null;
-            let stableText = ''; // 已确认（final）的文本
-            let interimText = ''; // 当前临时文本
-            let matchedTermsMap = new Map(); // key: termId, value: {term, matchType, firstSeenIndex}
-            let matchedTermsOrder = []; // 按出现顺序的termId列表
-            let processedStableLength = 0; // 已处理的stable文本长度（用于增量匹配）
-            let trieExact = null; // 精准匹配Trie
-            let trieFuzzy = null; // 模糊匹配Trie（标准化后）
-            let termById = new Map(); // id -> term 快速查找
+            let stableText = '';
+            let interimText = '';
+            let matchedTermsMap = new Map(); // key: termId_matchType -> { term, matchType, firstSeenIndex }
+            let matchedTermsOrder = []; // 顺序keys
             let autoScrollTerms = true;
             let termsScrollTimeout = null;
 
-            // ==================== Trie树实现 ====================
-            class TrieNode {
-                constructor() {
-                    this.children = {};
-                    this.termIds = []; // 匹配到此节点的术语ID列表
+            // 标准化函数
+            function normalizeText(str) {
+                return str.replace(/[\s\p{P}\p{S}]+/gu, '').toLowerCase();
+            }
+
+            function escapeHTML(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+
+            // Toast
+            function showToast(message, type = 'info') {
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }
+
+            // 术语库持久化
+            function loadTermBase() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (raw) termBase = JSON.parse(raw);
+                    if (!Array.isArray(termBase)) termBase = [];
+                } catch (e) { termBase = []; }
+                // 首次使用自动添加示例术语
+                if (termBase.length === 0) {
+                    const samples = [
+                        { chinese: '人工智能', english: 'Artificial Intelligence', description: '计算机科学的一个分支', category: 'AI' },
+                        { chinese: '机器学习', english: 'Machine Learning', description: '使计算机无需明确编程即可学习', category: 'AI' },
+                        { chinese: '深度学习', english: 'Deep Learning', description: '基于人工神经网络的机器学习方法', category: 'AI' },
+                        { chinese: '自然语言处理', english: 'Natural Language Processing', description: '处理和分析大量自然语言数据', category: 'NLP' },
+                        { chinese: '语音识别', english: 'Speech Recognition', description: '将语音转换为文本的技术', category: 'ASR' },
+                        { chinese: '术语库', english: 'Termbase', description: '存储术语及其翻译的数据库', category: '术语' },
+                        { chinese: '实时转写', english: 'Real-time Transcription', description: '即时将语音转为文字', category: '功能' },
+                        { chinese: '麦克风', english: 'Microphone', description: '采集声音的输入设备', category: '硬件' }
+                    ];
+                    samples.forEach(s => addTerm(s.chinese, s.english, s.description, s.category));
+                    showToast('已自动添加8条示例术语，可前往术语库管理', 'info');
                 }
             }
 
-            class Trie {
-                constructor() {
-                    this.root = new TrieNode();
-                }
-                insert(word, termId) {
-                    let node = this.root;
-                    for (const ch of word) {
-                        if (!node.children[ch]) node.children[ch] = new TrieNode();
-                        node = node.children[ch];
-                    }
-                    if (!node.termIds.includes(termId)) {
-                        node.termIds.push(termId);
-                    }
-                }
-                // 在文本中搜索所有匹配，返回 [{termId, start, end}]
-                search(text) {
-                    const results = [];
-                    const n = text.length;
-                    for (let i = 0; i < n; i++) {
-                        let node = this.root;
-                        for (let j = i; j < n; j++) {
-                            const ch = text[j];
-                            if (!node.children[ch]) break;
-                            node = node.children[ch];
-                            if (node.termIds.length > 0) {
-                                                for (const tid of node.termIds) {
-                                                    results.push({ termId: tid, start: i, end: j + 1 });
+            function saveTermBase() {
+                try { localStorage.setItem(STORAGE_KEY, JSON.stringify(termBase)); } catch (e) { showToast('存储空间不足', 'error'); }
             }
-        }
-    }
-    }
-    return results;
-    }
-    }
 
-    // 标准化函数：去空格、去标点、小写
-    function normalizeText(str) {
-    return str
-    .replace(/[\s\p{P}\p{S}]+/gu, '') // 去除空格、标点、符号
-    .toLowerCase();
-    }
+            function generateId() {
+                return 't_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+            }
 
-    // 重建Trie树
-    function rebuildTries() {
-    trieExact = new Trie();
-    trieFuzzy = new Trie();
-    termById.clear();
-    for (const term of termBase) {
-    termById.set(term.id, term);
-    // 精准匹配：插入原始术语（中文和英文）
-    if (term.chinese) trieExact.insert(term.chinese, term.id);
-    if (term.english) trieExact.insert(term.english, term.id);
-    // 也插入小写版本
-    if (term.english) trieExact.insert(term.english.toLowerCase(), term.id);
-    // 模糊匹配：插入标准化版本
-    const normCN = normalizeText(term.chinese || '');
-    const normEN = normalizeText(term.english || '');
-    if (normCN && normCN.length >= 1) trieFuzzy.insert(normCN, term.id);
-    if (normEN && normEN.length >= 1) trieFuzzy.insert(normEN, term.id);
-    }
-    }
+            function addTerm(chinese, english, description, category) {
+                const id = generateId();
+                termBase.push({
+                    id,
+                    chinese: chinese.trim(),
+                    english: english.trim(),
+                    description: (description || '').trim(),
+                    category: (category || '').trim(),
+                    createdAt: Date.now()
+                });
+                saveTermBase();
+            }
 
-    // ==================== Toast ====================
-    function showToast(message, type = 'info') {
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-    }
+            function updateTerm(id, chinese, english, description, category) {
+                const idx = termBase.findIndex(t => t.id === id);
+                if (idx === -1) return false;
+                termBase[idx].chinese = chinese.trim();
+                termBase[idx].english = english.trim();
+                termBase[idx].description = (description || '').trim();
+                termBase[idx].category = (category || '').trim();
+                saveTermBase();
+                return true;
+            }
 
-    // ==================== 术语库持久化 ====================
-    function loadTermBase() {
-    try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-    termBase = JSON.parse(raw);
-    if (!Array.isArray(termBase)) termBase = [];
-    }
-    } catch (e) {
-    termBase = [];
-    }
-    rebuildTries();
-    }
+            function deleteTerm(id) {
+                const idx = termBase.findIndex(t => t.id === id);
+                if (idx === -1) return false;
+                termBase.splice(idx, 1);
+                saveTermBase();
+                return true;
+            }
 
-    function saveTermBase() {
-    try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(termBase));
-    } catch (e) {
-    showToast('存储空间不足，请清理部分术语', 'error');
-    }
-    rebuildTries();
-    }
-
-    function generateId() {
-    return 't_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-    }
-
-    function addTerm(chinese, english, description, category) {
-    const id = generateId();
-    const term = {
-    id,
-    chinese: chinese.trim(),
-    english: english.trim(),
-    description: (description || '').trim(),
-    category: (category || '').trim(),
-    createdAt: Date.now()
-    };
-    termBase.push(term);
-    saveTermBase();
-    return term;
-    }
-
-    function updateTerm(id, chinese, english, description, category) {
-    const idx = termBase.findIndex(t => t.id === id);
-    if (idx === -1) return false;
-    termBase[idx].chinese = chinese.trim();
-    termBase[idx].english = english.trim();
-    termBase[idx].description = (description || '').trim();
-    termBase[idx].category = (category || '').trim();
-    saveTermBase();
-    return true;
-    }
-
-    function deleteTerm(id) {
-    const idx = termBase.findIndex(t => t.id === id);
-    if (idx === -1) return false;
-    termBase.splice(idx, 1);
-    saveTermBase();
-    return true;
-    }
-
-    // ==================== 术语库UI渲染 ====================
-    function renderTermBase(filterText = '') {
-    const filter = (filterText || '').toLowerCase().trim();
-    let filtered = termBase;
-    if (filter) {
-    filtered = termBase.filter(t =>
-    (t.chinese || '').toLowerCase().includes(filter) ||
-    (t.english || '').toLowerCase().includes(filter) ||
-    (t.category || '').toLowerCase().includes(filter)
-    );
-    }
-    termbaseTbody.innerHTML = '';
-    if (filtered.length === 0) {
-    termbaseEmpty.style.display = 'block';
-    } else {
-    termbaseEmpty.style.display = 'none';
-    filtered.forEach(t => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-    <td><strong>${escapeHTML(t.chinese || '—')}</strong></td>
-    <td>${escapeHTML(t.english || '—')}</td>
-    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHTML(t.description || '')}">${escapeHTML(t.description || '—')}</td>
-    <td>${t.category ? `<span style="font-size:11px;padding:2px 8px;border-radius:10px;background:#eef1fe;color:var(--accent);">${escapeHTML(t.category)}</span>` : '—'}</td>
-    <td>
-    <div class="actions-cell">
-    <button class="btn btn-outline btn-xs btn-edit-term" data-id="${t.id}">✏️</button>
-    <button class="btn btn-danger btn-xs btn-del-term" data-id="${t.id}">🗑</button>
-    </div>
-    </td>
-    `;
-    termbaseTbody.appendChild(tr);
-    });
-    }
-    termbaseStats.textContent = `共 ${termBase.length} 条术语`;
-    // 绑定事件
-    $$('.btn-edit-term').forEach(btn => {
-    btn.addEventListener('click', () => openEditModal(btn.dataset.id));
-    });
-    $$('.btn-del-term').forEach(btn => {
-    btn.addEventListener('click', () => {
-    if (confirm('确定删除该术语吗？此操作不可恢复。')) {
-    deleteTerm(btn.dataset.id);
-    renderTermBase(searchInput.value);
-    resetWorkbenchMatches();
-    showToast('术语已删除', 'success');
-    }
-    });
-    });
-    }
-
-    function escapeHTML(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-    }
-
-    // ==================== 模态框 ====================
-    function openAddModal() {
-    modalTitle.textContent = '添加术语';
-    inputTermCN.value = '';
-    inputTermEN.value = '';
-    inputTermDesc.value = '';
-    inputTermCat.value = '';
-    inputEditId.value = '';
-    modalOverlay.style.display = 'flex';
-    inputTermCN.focus();
-    }
-
-    function openEditModal(id) {
-    const term = termBase.find(t => t.id === id);
-    if (!term) return;
-    modalTitle.textContent = '编辑术语';
-    inputTermCN.value = term.chinese || '';
-    inputTermEN.value = term.english || '';
-    inputTermDesc.value = term.description || '';
-    inputTermCat.value = term.category || '';
-    inputEditId.value = id;
-    modalOverlay.style.display = 'flex';
-    inputTermCN.focus();
-    }
-
-    function closeModal() {
-    modalOverlay.style.display = 'none';
-    inputEditId.value = '';
-    }
-
-    function saveModal() {
-    const cn = inputTermCN.value.trim();
-    const en = inputTermEN.value.trim();
-    if (!cn && !en) {
-    showToast('术语中文和英文至少填写一项', 'error');
-    return;
-    }
-    const desc = inputTermDesc.value.trim();
-    const cat = inputTermCat.value.trim();
-    const editId = inputEditId.value;
-    if (editId) {
-    updateTerm(editId, cn, en, desc, cat);
-    showToast('术语已更新', 'success');
-    } else {
-    addTerm(cn, en, desc, cat);
-    showToast('术语已添加', 'success');
-    }
-    closeModal();
-    renderTermBase(searchInput.value);
-    resetWorkbenchMatches();
-    }
-
-    // ==================== 批量导入 ====================
-    function parseCSV(text) {
-    const lines = text.split(/\r?\n/).filter(line => line.trim());
-    if (lines.length === 0) return [];
-    // 检测第一行是否为标题行
-    const firstLine = lines[0].toLowerCase();
-    const isHeader = firstLine.includes('中文') || firstLine.includes('英文') || firstLine.includes(
-        'chinese') || firstLine.includes('english') || firstLine.includes('术语');
-    const startIdx = isHeader ? 1 : 0;
-    const results = [];
-    for (let i = startIdx; i < lines.length; i++) {
-    const cols = parseCSVLine(lines[i]);
-    if (cols.length >= 2 && (cols[0]?.trim() || cols[1]?.trim())) {
-    results.push({
-    chinese: (cols[0] || '').trim(),
-    english: (cols[1] || '').trim(),
-    description: (cols[2] || '').trim(),
-    category: (cols[3] || '').trim(),
-    });
-    }
-    }
-    return results;
-    }
-
-    function parseCSVLine(line) {
-    const result = [];
-    let current = '';
-    let inQuotes = false;
-    for (const ch of line) {
-    if (ch === '"') {
-    inQuotes = !inQuotes;
-    } else if (ch === ',' && !inQuotes) {
-    result.push(current);
-    current = '';
-    } else {
-    current += ch;
-    }
-    }
-    result.push(current);
-    return result;
-    }
-
-    function handleBatchFile(file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-    const text = e.target.result;
-    let parsed = [];
-    if (file.name.endsWith('.json')) {
-    try {
-    const data = JSON.parse(text);
-    if (Array.isArray(data)) {
-    parsed = data.map(item => ({
-    chinese: item.chinese || item['术语中文'] || item.cn || '',
-    english: item.english || item['术语英文'] || item.en || '',
-    description: item.description || item['术语解释'] || item.desc || '',
-    category: item.category || item['分类'] || item.cat || '',
-    }));
-    }
-    } catch (err) {
-    showToast('JSON 解析失败，请检查文件格式', 'error');
-    return;
-    }
-    } else {
-    parsed = parseCSV(text);
-    }
-    if (parsed.length === 0) {
-    showToast('未解析到有效术语数据', 'error');
-    return;
-    }
-    let imported = 0;
-    for (const item of parsed) {
-    if (item.chinese || item.english) {
-    addTerm(item.chinese, item.english, item.description, item.category);
-    imported++;
-    }
-    }
-    showToast(`成功导入 ${imported} 条术语`, 'success');
-    renderTermBase(searchInput.value);
-    resetWorkbenchMatches();
-    };
-    reader.readAsText(file);
-    }
-
-    // ==================== 工作台：重置匹配状态 ====================
-    function resetWorkbenchMatches() {
-    matchedTermsMap.clear();
-    matchedTermsOrder = [];
-    processedStableLength = 0;
-    renderTermsPanel();
-    updateTranscriptHighlight();
-    }
-
-    // ==================== 增量术语匹配 ====================
-    function matchIncrementalText(newText, isStable = true) {
-    if (!newText || newText.length === 0) return [];
-    if (!trieExact || !trieFuzzy) return [];
-
-    const newMatches = [];
-    // 精准匹配
-    const exactResults = trieExact.search(newText);
-    for (const r of exactResults) {
-    const term = termById.get(r.termId);
-    if (!term) continue;
-    const matchKey = r.termId + '_exact';
-    if (!matchedTermsMap.has(matchKey)) {
-    newMatches.push({ term, matchType: 'exact', matchKey, termId: r.termId });
-    }
-    }
-
-    // 模糊匹配：标准化后匹配
-    const normNew = normalizeText(newText);
-    if (normNew.length >= 1) {
-    const fuzzyResults = trieFuzzy.search(normNew);
-    for (const r of fuzzyResults) {
-    const matchKey = r.termId + '_fuzzy';
-    const exactKey = r.termId + '_exact';
-    // 如果已经精准匹配，跳过模糊
-    if (matchedTermsMap.has(exactKey)) continue;
-    if (!matchedTermsMap.has(matchKey)) {
-    const term = termById.get(r.termId);
-    if (!term) continue;
-    // 验证模糊匹配确实不是精准匹配（在原始文本中检查）
-    const rawTextLower = newText.toLowerCase();
-    const cnInText = term.chinese && rawTextLower.includes(term.chinese.toLowerCase());
-    const enInText = term.english && rawTextLower.includes(term.english.toLowerCase());
-    if (!cnInText && !enInText) {
-    newMatches.push({ term, matchType: 'fuzzy', matchKey, termId: r.termId });
-                } else if (!matchedTermsMap.has(exactKey)) {
-                    // 实际上是精准匹配
-                    newMatches.push({ term, matchType: 'exact', matchKey: exactKey, termId: r.termId });
+            // 术语库UI
+            function renderTermBase(filterText = '') {
+                const filter = (filterText || '').toLowerCase().trim();
+                let filtered = termBase;
+                if (filter) {
+                    filtered = termBase.filter(t =>
+                        (t.chinese || '').toLowerCase().includes(filter) ||
+                        (t.english || '').toLowerCase().includes(filter) ||
+                        (t.category || '').toLowerCase().includes(filter)
+                    );
+                }
+                termbaseTbody.innerHTML = '';
+                if (filtered.length === 0) {
+                    termbaseEmpty.style.display = 'block';
+                } else {
+                    termbaseEmpty.style.display = 'none';
+                    filtered.forEach(t => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td><strong>${escapeHTML(t.chinese || '—')}</strong></td>
+                            <td>${escapeHTML(t.english || '—')}</td>
+                            <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHTML(t.description || '')}">${escapeHTML(t.description || '—')}</td>
+                            <td>${t.category ? `<span style="font-size:11px;padding:2px 8px;border-radius:10px;background:#eef1fe;color:var(--accent);">${escapeHTML(t.category)}</span>` : '—'}</td>
+                            <td>
+                                <div style="display:flex;gap:6px;">
+                                    <button class="btn btn-outline btn-xs btn-edit-term" data-id="${t.id}">✏️</button>
+                                    <button class="btn btn-danger btn-xs btn-del-term" data-id="${t.id}">🗑</button>
+                                </div>
+                            </td>
+                        `;
+                        termbaseTbody.appendChild(tr);
+                    });
+                }
+                termbaseStats.textContent = `共 ${termBase.length} 条术语`;
+                $$('.btn-edit-term').forEach(btn => btn.addEventListener('click', () => openEditModal(btn.dataset.id)));
+                $$('.btn-del-term').forEach(btn => btn.addEventListener('click', () => {
+                    if (confirm('确定删除该术语吗？')) {
+                        deleteTerm(btn.dataset.id);
+                        renderTermBase(searchInput.value);
+                        performGlobalMatch(); // 重新匹配
+                        showToast('术语已删除', 'success');
                     }
-                    }
-                    }
-                    }
+                }));
+            }
 
-                    // 去重（按matchKey）
-                    const uniqueMatches = [];
-                    const seenKeys = new Set();
-                    for (const m of newMatches) {
-                    if (!seenKeys.has(m.matchKey) && !matchedTermsMap.has(m.matchKey)) {
-                    seenKeys.add(m.matchKey);
-                    uniqueMatches.push(m);
-                    }
-                    }
-                    return uniqueMatches;
-                    }
+            // 模态框
+            function openAddModal() {
+                modalTitle.textContent = '添加术语';
+                inputTermCN.value = ''; inputTermEN.value = ''; inputTermDesc.value = ''; inputTermCat.value = ''; inputEditId.value = '';
+                modalOverlay.style.display = 'flex';
+                inputTermCN.focus();
+            }
+            function openEditModal(id) {
+                const term = termBase.find(t => t.id === id);
+                if (!term) return;
+                modalTitle.textContent = '编辑术语';
+                inputTermCN.value = term.chinese || ''; inputTermEN.value = term.english || '';
+                inputTermDesc.value = term.description || ''; inputTermCat.value = term.category || '';
+                inputEditId.value = id;
+                modalOverlay.style.display = 'flex';
+            }
+            function closeModal() { modalOverlay.style.display = 'none'; inputEditId.value = ''; }
+            function saveModal() {
+                const cn = inputTermCN.value.trim();
+                const en = inputTermEN.value.trim();
+                if (!cn && !en) { showToast('至少填写中文或英文', 'error'); return; }
+                const desc = inputTermDesc.value.trim();
+                const cat = inputTermCat.value.trim();
+                const editId = inputEditId.value;
+                if (editId) {
+                    updateTerm(editId, cn, en, desc, cat);
+                    showToast('术语已更新', 'success');
+                } else {
+                    addTerm(cn, en, desc, cat);
+                    showToast('术语已添加', 'success');
+                }
+                closeModal();
+                renderTermBase(searchInput.value);
+                performGlobalMatch(); // 重新匹配
+            }
 
-                    function processNewStableText(newStablePart) {
-                    if (!newStablePart || newStablePart.length === 0) return;
-                    const newMatches = matchIncrementalText(newStablePart, true);
-                    for (const m of newMatches) {
-                    matchedTermsMap.set(m.matchKey, { term: m.term, matchType: m.matchType, firstSeenIndex: matchedTermsOrder
-                            .length });
-                    matchedTermsOrder.push(m.matchKey);
+            // 批量导入CSV
+            function parseCSVLine(line) {
+                const result = []; let current = ''; let inQuotes = false;
+                for (const ch of line) {
+                    if (ch === '"') inQuotes = !inQuotes;
+                    else if (ch === ',' && !inQuotes) { result.push(current); current = ''; }
+                    else current += ch;
+                }
+                result.push(current);
+                return result;
+            }
+            function handleBatchFile(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const text = e.target.result;
+                    let parsed = [];
+                    if (file.name.endsWith('.json')) {
+                        try {
+                            const data = JSON.parse(text);
+                            if (Array.isArray(data)) {
+                                parsed = data.map(item => ({
+                                    chinese: item.chinese || item['术语中文'] || item.cn || '',
+                                    english: item.english || item['术语英文'] || item.en || '',
+                                    description: item.description || item['术语解释'] || item.desc || '',
+                                    category: item.category || item['分类'] || item.cat || '',
+                                }));
+                            }
+                        } catch (err) { showToast('JSON 解析失败', 'error'); return; }
+                    } else {
+                        const lines = text.split(/\r?\n/).filter(line => line.trim());
+                        const startIdx = (lines[0] && lines[0].toLowerCase().includes('中文') || lines[0].toLowerCase().includes('english')) ? 1 : 0;
+                        for (let i = startIdx; i < lines.length; i++) {
+                            const cols = parseCSVLine(lines[i]);
+                            if (cols.length >= 2 && (cols[0]?.trim() || cols[1]?.trim())) {
+                                parsed.push({
+                                    chinese: (cols[0] || '').trim(),
+                                    english: (cols[1] || '').trim(),
+                                    description: (cols[2] || '').trim(),
+                                    category: (cols[3] || '').trim(),
+                                });
+                            }
+                        }
                     }
-                    }
+                    if (parsed.length === 0) { showToast('未解析到有效术语', 'error'); return; }
+                    parsed.forEach(item => addTerm(item.chinese, item.english, item.description, item.category));
+                    showToast(`成功导入 ${parsed.length} 条术语`, 'success');
+                    renderTermBase(searchInput.value);
+                    performGlobalMatch();
+                };
+                reader.readAsText(file);
+            }
 
-                    // ==================== 更新转写文本高亮 ====================
-                    function updateTranscriptHighlight() {
-                    let displayText = stableText;
-                    if (interimText) {
-                    displayText += '\n' + interimText;
+            // ---- 核心：术语匹配 ----
+            function performGlobalMatch() {
+                matchedTermsMap.clear();
+                matchedTermsOrder.length = 0;
+                if (!stableText.trim()) {
+                    renderTermsPanel();
+                    updateTranscriptHighlight();
+                    return;
+                }
+                const fullText = stableText;
+                const lowerFull = fullText.toLowerCase();
+
+                // 遍历所有术语，同时检查精准和模糊
+                for (const term of termBase) {
+                    let exactFound = false;
+                    // 精准匹配：直接子串检查（不区分大小写）
+                    const searchPairs = [];
+                    if (term.chinese) searchPairs.push({ text: term.chinese, lower: term.chinese.toLowerCase() });
+                    if (term.english) {
+                        searchPairs.push({ text: term.english, lower: term.english.toLowerCase() });
+                        // 也加入小写版本以确保搜索
+                        if (term.english.toLowerCase() !== term.english) searchPairs.push({ text: term.english.toLowerCase(), lower: term.english.toLowerCase() });
                     }
-                    if (!displayText.trim()) {
+                    for (const sp of searchPairs) {
+                        if (lowerFull.includes(sp.lower)) {
+                            exactFound = true;
+                            const key = term.id + '_exact';
+                                                        if (!matchedTermsMap.has(key)) {
+                                matchedTermsMap.set(key, { term, matchType: 'exact', firstSeenIndex: matchedTermsOrder.length });
+                                matchedTermsOrder.push(key);
+                                break; // 精准匹配只记一次
+                            }
+                        }
+                    }
+                    if (exactFound) continue; // 已有精准匹配，跳过模糊
+
+                    // 模糊匹配：标准化后检查
+                    const normFull = normalizeText(fullText);
+                    const normTermCN = normalizeText(term.chinese || '');
+                    const normTermEN = normalizeText(term.english || '');
+                    const fuzzyHit = (normTermCN && normFull.includes(normTermCN)) || (normTermEN && normFull.includes(normTermEN));
+                    if (fuzzyHit) {
+                        const key = term.id + '_fuzzy';
+                        if (!matchedTermsMap.has(key)) {
+                            matchedTermsMap.set(key, { term, matchType: 'fuzzy', firstSeenIndex: matchedTermsOrder.length });
+                            matchedTermsOrder.push(key);
+                        }
+                    }
+                }
+
+                renderTermsPanel();
+                updateTranscriptHighlight();
+            }
+
+            // 渲染右侧术语面板
+            function renderTermsPanel() {
+                if (matchedTermsOrder.length === 0) {
+                    termsList.innerHTML = '<div class="terms-list-empty">未匹配到术语，请先在术语库添加</div>';
+                    badgeTermCount.textContent = '0';
+                    return;
+                }
+                let html = '';
+                for (let i = 0; i < matchedTermsOrder.length; i++) {
+                    const key = matchedTermsOrder[i];
+                    const info = matchedTermsMap.get(key);
+                    if (!info) continue;
+                    const { term, matchType } = info;
+                    const matchLabel = matchType === 'exact' ? '精准' : '模糊';
+                    const matchClass = matchType === 'exact' ? 'match-exact' : 'match-fuzzy';
+                    html += `
+                        <div class="term-card" data-term-id="${term.id}" data-match-key="${key}">
+                            <div class="term-main">
+                                <span>${escapeHTML(term.chinese || '—')}</span>
+                                <span class="term-separator">|</span>
+                                <span>${escapeHTML(term.english || '—')}</span>
+                                <span class="match-type ${matchClass}">${matchLabel}</span>
+                            </div>
+                            ${term.description ? `<div class="term-desc">${escapeHTML(term.description)}</div>` : ''}
+                            ${term.category ? `<span class="term-category">${escapeHTML(term.category)}</span>` : ''}
+                        </div>`;
+                }
+                termsList.innerHTML = html;
+                badgeTermCount.textContent = matchedTermsOrder.length;
+
+                if (autoScrollTerms) {
+                    requestAnimationFrame(() => {
+                        const last = termsList.querySelector('.term-card:last-child');
+                        if (last) last.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    });
+                }
+            }
+
+            // 高亮转写文本
+            function updateTranscriptHighlight() {
+                let displayText = stableText;
+                if (interimText) displayText += '\n' + interimText;
+                if (!displayText.trim()) {
                     transcriptArea.innerHTML = '<div class="transcript-placeholder">点击「开始录音」按钮，实时转写将在此显示…</div>';
                     badgeWordCount.textContent = '0 字';
                     return;
-                    }
-                    // 构建高亮HTML
-                    // 收集所有需要高亮的术语文本
-                    const highlightTerms = [];
-                    for (const [key, info] of matchedTermsMap) {
-                    const term = info.term;
-                    const texts = [];
-                    if (term.chinese) texts.push({ text: term.chinese, matchType: info.matchType, termId: term.id });
-                    if (term.english) texts.push({ text: term.english, matchType: info.matchType, termId: term.id });
-                    if (term.english) texts.push({ text: term.english.toLowerCase(), matchType: info.matchType, termId: term
-                            .id });
-                    for (const t of texts) {
-                    if (t.text && t.text.length >= 1) {
-                    highlightTerms.push(t);
-                    }
-                    }
-                    }
-                    // 去重并按长度降序排列（长匹配优先）
-                    const uniqueHT = [];
-                    const seenHT = new Set();
-                    for (const ht of highlightTerms) {
-                    const key = ht.text + '|' + ht.matchType;
-                    if (!seenHT.has(key)) {
-                    seenHT.add(key);
-                    uniqueHT.push(ht);
-                    }
-                    }
-                    uniqueHT.sort((a, b) => b.text.length - a.text.length);
+                }
 
-                    // 使用HTML转义后的文本进行高亮替换
-                    let html = escapeHTML(displayText);
-                    // 对每个术语进行高亮替换（使用不区分大小写的匹配）
-                    const usedPositions = new Set(); // 避免重叠高亮
-                    const highlightSpans = [];
+                // 收集所有匹配的术语文本及其类型
+                const highlightItems = [];
+                for (const [key, info] of matchedTermsMap) {
+                    const { term, matchType } = info;
+                    const addText = (text) => {
+                        if (text && text.length > 0) highlightItems.push({ text, matchType, termId: term.id });
+                    };
+                    addText(term.chinese);
+                    addText(term.english);
+                    addText(term.english.toLowerCase());
+                }
+                // 去重并按长度降序
+                const unique = [];
+                const seen = new Set();
+                highlightItems.forEach(h => {
+                    const k = h.text + '|' + h.matchType;
+                    if (!seen.has(k)) { seen.add(k); unique.push(h); }
+                });
+                unique.sort((a, b) => b.text.length - a.text.length);
 
-                    for (const ht of uniqueHT) {
-                    const escapedTerm = escapeHTML(ht.text);
-                    // 在html中查找（不区分大小写）
+                let html = escapeHTML(displayText);
+                const usedRanges = [];
+                const spans = [];
+
+                unique.forEach(h => {
+                    const escapedTerm = escapeHTML(h.text);
                     const lowerHtml = html.toLowerCase();
                     const lowerTerm = escapedTerm.toLowerCase();
                     let searchFrom = 0;
                     while (true) {
-                    const idx = lowerHtml.indexOf(lowerTerm, searchFrom);
-                    if (idx === -1) break;
-                    // 检查是否与已有高亮重叠
-                    let overlap = false;
-                    for (const [s, e] of usedPositions) {
-                    if (idx < e && idx + lowerTerm.length > s) {
-                    overlap = true;
-                    break;
+                        const idx = lowerHtml.indexOf(lowerTerm, searchFrom);
+                        if (idx === -1) break;
+                        // 检查重叠
+                        let overlap = false;
+                        for (const [s, e] of usedRanges) {
+                            if (idx < e && idx + lowerTerm.length > s) { overlap = true; break; }
+                        }
+                        if (!overlap) {
+                            const originalSlice = html.slice(idx, idx + escapedTerm.length);
+                            const cssClass = h.matchType === 'fuzzy' ? 'highlight-term fuzzy' : 'highlight-term';
+                            const span = `<span class="${cssClass}" data-term-id="${h.termId}" title="${escapeHTML(h.termId)}">${originalSlice}</span>`;
+                            spans.push({ idx, len: escapedTerm.length, span });
+                            usedRanges.push([idx, idx + escapedTerm.length]);
+                            searchFrom = idx + escapedTerm.length;
+                        } else {
+                            searchFrom = idx + 1;
+                        }
                     }
-                    }
-                    if (!overlap) {
-                    const originalSlice = html.slice(idx, idx + escapedTerm.length);
-                    const cssClass = ht.matchType === 'fuzzy' ? 'highlight-term fuzzy' : 'highlight-term';
-                    const span = `<span class="${cssClass}" data-term-id="${ht.termId}" title="${escapeHTML(ht.termId)}">${originalSlice}</span>`;
-                    highlightSpans.push({ idx, len: escapedTerm.length, span, endIdx: idx + escapedTerm
-                            .length });
-                    usedPositions.add([idx, idx + escapedTerm.length]);
-                    searchFrom = idx + escapedTerm.length;
-                    } else {
-                    searchFrom = idx + 1;
-                    }
-                    }
-                    }
+                });
 
-                    // 从后往前替换，避免索引偏移
-                    highlightSpans.sort((a, b) => b.idx - a.idx);
-                    for (const hs of highlightSpans) {
-                    html = html.slice(0, hs.idx) + hs.span + html.slice(hs.idx + hs.len);
-                    }
+                spans.sort((a, b) => b.idx - a.idx);
+                spans.forEach(s => { html = html.slice(0, s.idx) + s.span + html.slice(s.idx + s.len); });
 
-                    // 如果有interim文本，给interim部分加样式
-                    if (interimText) {
+                // interim样式
+                if (interimText) {
                     const escapedInterim = escapeHTML(interimText);
-                    const interimIdx = html.lastIndexOf(escapedInterim);
-                    if (interimIdx >= 0 && interimIdx > html.lastIndexOf('<span')) {
-                    // interim文本在稳定文本之后，给其添加样式
-                    const before = html.slice(0, interimIdx);
-                    const after = html.slice(interimIdx + escapedInterim.length);
-                    html = before + `<span class="interim-text">${escapedInterim}</span>` + after;
+                    const iIdx = html.lastIndexOf(escapedInterim);
+                    if (iIdx >= 0 && (iIdx > html.lastIndexOf('<span') || html.lastIndexOf('<span') === -1)) {
+                        html = html.slice(0, iIdx) + `<span class="interim-text">${escapedInterim}</span>` + html.slice(iIdx + escapedInterim.length);
                     }
-                    }
+                }
 
-                    transcriptArea.innerHTML = html;
-                    const wordCount = displayText.replace(/\s/g, '').length;
-                    badgeWordCount.textContent = wordCount + ' 字';
+                transcriptArea.innerHTML = html;
+                badgeWordCount.textContent = displayText.replace(/\s/g, '').length + ' 字';
 
-                    // 绑定高亮词点击事件（点击可滚动到右侧对应术语卡片）
-                    transcriptArea.querySelectorAll('.highlight-term').forEach(el => {
+                // 点击高亮词定位右侧卡片
+                transcriptArea.querySelectorAll('.highlight-term').forEach(el => {
                     el.addEventListener('click', () => {
-                    const termId = el.dataset.termId;
-                    scrollToTermCard(termId);
+                        const termId = el.dataset.termId;
+                        const card = termsList.querySelector(`[data-term-id="${termId}"]`);
+                        if (card) {
+                            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            card.classList.add('new-highlight');
+                            setTimeout(() => card.classList.remove('new-highlight'), 1200);
+                        }
                     });
-                    });
-                    }
+                });
+            }
 
-                    function scrollToTermCard(termId) {
-                    const card = termsList.querySelector(`[data-term-id="${termId}"]`);
-                    if (card) {
-                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    card.classList.add('new-highlight');
-                    setTimeout(() => card.classList.remove('new-highlight'), 1200);
-                    }
-                    }
-
-                    // ==================== 渲染右侧术语面板 ====================
-                    function renderTermsPanel() {
-                    if (matchedTermsOrder.length === 0) {
-                    termsList.innerHTML = '<div class="terms-list-empty">等待术语匹配…</div>';
-                    badgeTermCount.textContent = '0';
-                    return;
-                    }
-                    let html = '';
-                    for (let i = 0; i < matchedTermsOrder.length; i++) {
-                    const key = matchedTermsOrder[i];
-                    const info = matchedTermsMap.get(key);
-                    if (!info) continue;
-                    const term = info.term;
-                    const matchLabel = info.matchType === 'exact' ? '精准' : '模糊';
-                    const matchClass = info.matchType === 'exact' ? 'match-exact' : 'match-fuzzy';
-                    html += `
-                    <div class="term-card" data-term-id="${term.id}" data-match-key="${key}">
-                    <div class="term-main">
-                    <span>${escapeHTML(term.chinese || '—')}</span>
-                    <span class="term-separator">|</span>
-                    <span>${escapeHTML(term.english || '—')}</span>
-                    <span class="match-type ${matchClass}">${matchLabel}</span>
-                    </div>
-                    ${term.description ? `<div class="term-desc">${escapeHTML(term.description)}</div>` : ''}
-                    ${term.category ? `<span class="term-category">${escapeHTML(term.category)}</span>` : ''}
-                    </div>`;
-                    }
-                    termsList.innerHTML = html;
-                    badgeTermCount.textContent = matchedTermsOrder.length;
-
-                    // 自动滚动到底部
-                    if (autoScrollTerms && matchedTermsOrder.length > 0) {
-                    requestAnimationFrame(() => {
-                    const lastCard = termsList.querySelector('.term-card:last-child');
-                    if (lastCard) {
-                    lastCard.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                    }
-                    });
-                    }
-                    }
-
-                    // 监听右侧面板滚动
-                    function setupTermsScrollListener() {
-                    termsList.addEventListener('scroll', () => {
-                    const atBottom = termsList.scrollHeight - termsList.scrollTop - termsList.clientHeight < 40;
-                    if (!atBottom) {
+            // 监听右侧面板滚动以控制自动滚动
+            termsList.addEventListener('scroll', () => {
+                const atBottom = termsList.scrollHeight - termsList.scrollTop - termsList.clientHeight < 40;
+                if (!atBottom) {
                     autoScrollTerms = false;
                     if (termsScrollTimeout) clearTimeout(termsScrollTimeout);
-                    termsScrollTimeout = setTimeout(() => {
-                    autoScrollTerms = true;
-                    }, 3000);
-                    } else {
-                    autoScrollTerms = true;
-                    }
-                    });
-                    }
+                    termsScrollTimeout = setTimeout(() => { autoScrollTerms = true; }, 3000);
+                } else { autoScrollTerms = true; }
+            });
 
-                    // ==================== SpeechRecognition ====================
-                    function getSpeechRecognition() {
-                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                    if (!SpeechRecognition) return null;
-                    const rec = new SpeechRecognition();
-                    rec.continuous = true;
-                    rec.interimResults = true;
-                    rec.lang = currentLang;
-                    rec.maxAlternatives = 1;
-                    return rec;
-                    }
+            // ---- 语音识别 ----
+            function getSpeechRecognition() {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) return null;
+                const rec = new SpeechRecognition();
+                rec.continuous = true;
+                rec.interimResults = true;
+                rec.lang = currentLang;
+                rec.maxAlternatives = 1;
+                return rec;
+            }
 
-                    function startRecording() {
-                    if (isRecording) return;
-                    if (!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)) {
-                    showToast('您的浏览器不支持语音识别。请使用 Chrome 或 Edge 浏览器，并确保使用 HTTPS 或 localhost。',
-                        'error');
+            function startRecording() {
+                if (isRecording) return;
+                if (!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)) {
+                    showToast('浏览器不支持语音识别，请使用 Chrome 或 Edge', 'error');
                     return;
-                    }
-                    // 检查HTTPS
-                    if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window
-                        .location.hostname !== '127.0.0.1') {
+                }
+                if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
                     showToast('语音识别需要 HTTPS 或 localhost 环境', 'error');
                     return;
-                    }
-                    try {
+                }
+                try {
                     recognition = getSpeechRecognition();
-                    if (!recognition) {
-                    showToast('无法初始化语音识别', 'error');
-                    return;
-                    }
+                    if (!recognition) { showToast('无法初始化语音识别', 'error'); return; }
                     recognition.lang = currentLang;
 
                     recognition.onstart = () => {
-                    isRecording = true;
-                    updateRecordButton();
-                    statusIndicator.textContent = '🔴 录音中…';
-                    statusIndicator.style.color = '#f54a4a';
+                        isRecording = true;
+                        updateRecordButton();
+                        statusIndicator.textContent = '🔴 录音中…';
+                        statusIndicator.style.color = '#f54a4a';
                     };
 
                     recognition.onend = () => {
-                    // 如果仍在录音状态，自动重启（处理长时间录音）
-                    if (isRecording && recognition) {
-                    try { recognition.start(); } catch (e) { /* ignore */ }
-                    } else {
-                    isRecording = false;
-                    updateRecordButton();
-                    statusIndicator.textContent = '⚪ 已停止';
-                    statusIndicator.style.color = '';
-                    }
+                        if (isRecording && recognition) {
+                            try { recognition.start(); } catch (e) {}
+                        } else {
+                            isRecording = false;
+                            updateRecordButton();
+                            statusIndicator.textContent = '⚪ 已停止';
+                            statusIndicator.style.color = '';
+                            // 录音结束时把暂存文本纳入stable
+                            if (interimText.trim()) {
+                                stableText += (stableText ? ' ' : '') + interimText.trim();
+                                interimText = '';
+                                performGlobalMatch();
+                            }
+                        }
                     };
 
                     recognition.onerror = (event) => {
-                    console.error('SpeechRecognition error:', event.error);
-                    if (event.error === 'not-allowed') {
-                    showToast('麦克风权限被拒绝，请在浏览器设置中允许麦克风访问', 'error');
-                    isRecording = false;
-                    updateRecordButton();
-                    statusIndicator.textContent = '⚪ 权限被拒';
-                    statusIndicator.style.color = '#f54a4a';
-                    } else if (event.error === 'no-speech') {
-                    // 静默处理，等待更多语音
-                    } else if (event.error === 'aborted') {
-                    // 用户主动停止
-                    } else {
-                    showToast('语音识别错误: ' + event.error, 'error');
-                    }
+                        console.error('Speech error:', event.error);
+                        if (event.error === 'not-allowed') showToast('麦克风权限被拒绝', 'error');
+                        if (event.error === 'no-speech') return;
+                        if (event.error === 'aborted') { /* 手动停止 */ }
+                        else showToast('语音识别错误: ' + event.error, 'error');
                     };
 
                     recognition.onresult = (event) => {
-                    let newStableText = '';
-                    let latestInterim = '';
-                    // 遍历所有results
-                    for (let i = 0; i < event.results.length; i++) {
-                    const result = event.results[i];
-                    const transcript = result[0].transcript;
-                    if (result.isFinal) {
-                    newStableText += transcript;
-                    } else {
-                    latestInterim += transcript;
-                    }
-                    }
-                    // 更新stable文本
-                    if (newStableText) {
-                    // 找到新增的stable部分
-                    if (newStableText.length > stableText.length) {
-                    const incrementalStable = newStableText.slice(stableText.length);
-                    stableText = newStableText;
-                    processNewStableText(incrementalStable);
-                    processedStableLength = stableText.length;
-                    } else if (newStableText !== stableText) {
-                    // 完全替换（不太常见，但处理）
-                    stableText = newStableText;
-                    resetWorkbenchMatches();
-                    processNewStableText(stableText);
-                    processedStableLength = stableText.length;
-                    }
-                    }
-                    interimText = latestInterim;
-                    // 更新UI
-                    updateTranscriptHighlight();
-                    renderTermsPanel();
+                        let newStable = '';
+                        let newInterim = '';
+                        for (let i = 0; i < event.results.length; i++) {
+                            const result = event.results[i];
+                            if (result.isFinal) {
+                                newStable += result[0].transcript;
+                            } else {
+                                newInterim += result[0].transcript;
+                            }
+                        }
+                        // 更新stable
+                        if (newStable && newStable !== stableText) {
+                            stableText = newStable;
+                            performGlobalMatch();
+                        }
+                        interimText = newInterim;
+                        updateTranscriptHighlight();
                     };
 
                     recognition.start();
-                    } catch (e) {
-                    console.error('Failed to start recognition:', e);
-                    showToast('启动语音识别失败: ' + e.message, 'error');
+                } catch (e) {
+                    console.error(e);
+                    showToast('启动录音失败', 'error');
                     isRecording = false;
                     updateRecordButton();
-                    }
-                    }
+                }
+            }
 
-                    function stopRecording() {
-                    isRecording = false;
-                    updateRecordButton();
-                    if (recognition) {
-                    try { recognition.stop(); } catch (e) { /* ignore */ }
+            function stopRecording() {
+                isRecording = false;
+                updateRecordButton();
+                if (recognition) {
+                    try { recognition.stop(); } catch (e) {}
                     recognition = null;
-                    }
-                    // 将interim文本也纳入stable（如果用户停止录音）
-                    if (interimText) {
-                    const trimmed = interimText.trim();
-                    if (trimmed) {
-                    stableText += (stableText ? ' ' : '') + trimmed;
-                    processNewStableText(trimmed);
-                    }
+                }
+                // 纳入interim
+                if (interimText.trim()) {
+                    stableText += (stableText ? ' ' : '') + interimText.trim();
                     interimText = '';
-                    updateTranscriptHighlight();
-                    renderTermsPanel();
-                    }
-                    statusIndicator.textContent = '⚪ 已停止';
-                    statusIndicator.style.color = '';
-                    }
+                    performGlobalMatch();
+                }
+                statusIndicator.textContent = '⚪ 已停止';
+                statusIndicator.style.color = '';
+            }
 
-                    function updateRecordButton() {
-                    if (isRecording) {
+            function updateRecordButton() {
+                if (isRecording) {
                     btnRecord.className = 'btn btn-danger btn-recording';
                     btnRecordIcon.innerHTML = '<span class="recording-dot"></span>';
                     btnRecordText.textContent = '停止录音';
-                    } else {
+                } else {
                     btnRecord.className = 'btn btn-primary';
                     btnRecordIcon.textContent = '🎤';
                     btnRecordText.textContent = '开始录音';
-                    }
-                    }
+                }
+            }
 
-                    // ==================== 导出DOCX ====================
-                    function exportToDocx() {
-                    if (!stableText.trim()) {
-                    showToast('没有可导出的转写文本', 'error');
-                    return;
-                    }
-                    // 构建包含术语信息的HTML文档
-                    let bodyHTML = '';
-                    // 添加转写文本（带术语标注）
-                    const paragraphs = stableText.split(/\n+/);
-                    for (const para of paragraphs) {
-                    if (!para.trim()) continue;
+            // 导出DOCX
+            function exportToDocx() {
+                if (!stableText.trim()) { showToast('没有可导出的文本', 'error'); return; }
+                let bodyHTML = '';
+                const paragraphs = stableText.split(/\n+/);
+                paragraphs.forEach(para => {
+                    if (!para.trim()) return;
                     let highlightedPara = escapeHTML(para);
-                    // 对匹配的术语添加标注
-                    const allMatchInfos = [];
+                    const allMatches = [];
                     for (const [key, info] of matchedTermsMap) {
-                    const term = info.term;
-                    const texts = [];
-                    if (term.chinese) texts.push(term.chinese);
-                    if (term.english) texts.push(term.english);
-                    for (const t of texts) {
-                    if (t && t.length >= 1) allMatchInfos.push({ text: t, term, matchType: info.matchType });
+                        const t = info.term;
+                        if (t.chinese) allMatches.push({ text: t.chinese, matchType: info.matchType });
+                        if (t.english) allMatches.push({ text: t.english, matchType: info.matchType });
                     }
-                    }
-                    // 去重
-                    const uniqueMatches = [];
-                    const seenTexts = new Set();
-                    for (const mi of allMatchInfos) {
-                    if (!seenTexts.has(mi.text)) {
-                    seenTexts.add(mi.text);
-                    uniqueMatches.push(mi);
-                    }
-                    }
-                    uniqueMatches.sort((a, b) => b.text.length - a.text.length);
-                    for (const mi of uniqueMatches) {
-                    const escaped = escapeHTML(mi.text);
-                    const regex = new RegExp(escaped.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-                    highlightedPara = highlightedPara.replace(regex,
-                        `<span style="background:#fff3b8;border-bottom:2px solid #f0c040;padding:1px 2px;">${escaped}</span>`
-                        );
-                    }
+                    // 去重排序
+                    const uniqueM = [];
+                    const seenM = new Set();
+                    allMatches.forEach(m => {
+                        if (!seenM.has(m.text)) { seenM.add(m.text); uniqueM.push(m); }
+                    });
+                    uniqueM.sort((a,b) => b.text.length - a.text.length);
+                    uniqueM.forEach(m => {
+                        const escaped = escapeHTML(m.text);
+                        const regex = new RegExp(escaped.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+                        highlightedPara = highlightedPara.replace(regex, `<span style="background:#fff3b8;">${escaped}</span>`);
+                    });
                     bodyHTML += `<p style="line-height:1.8;margin:6px 0;">${highlightedPara}</p>`;
-                    }
+                });
 
-                    // 添加术语表
-                                        let termsTableHTML = '';
-                    if (matchedTermsOrder.length > 0) {
-                    termsTableHTML = `
-                    <h3 style="margin-top:24px;color:#333;">匹配术语表</h3>
-                    <table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;font-size:13px;">
-                    <tr style="background:#f5f6f8;">
-                    <th>#</th><th>术语中文</th><th>术语英文</th><th>解释</th><th>分类</th><th>匹配类型</th>
-                    </tr>`;
-                    for (let i = 0; i < matchedTermsOrder.length; i++) {
-                    const key = matchedTermsOrder[i];
-                    const info = matchedTermsMap.get(key);
-                    if (!info) continue;
-                    const t = info.term;
-                    const matchLabel = info.matchType === 'exact' ? '精准' : '模糊';
-                    termsTableHTML += `
-                    <tr>
-                    <td>${i + 1}</td>
-                    <td>${escapeHTML(t.chinese || '—')}</td>
-                    <td>${escapeHTML(t.english || '—')}</td>
-                    <td>${escapeHTML(t.description || '—')}</td>
-                    <td>${escapeHTML(t.category || '—')}</td>
-                    <td>${matchLabel}</td>
-                    </tr>`;
-                    }
-                    termsTableHTML += '</table>';
-                    }
+                let termsTable = '';
+                if (matchedTermsOrder.length > 0) {
+                    termsTable = '<h3>匹配术语表</h3><table border="1" cellpadding="6" style="border-collapse:collapse;"><tr style="background:#f5f6f8;"><th>#</th><th>中文</th><th>英文</th><th>解释</th><th>分类</th><th>匹配</th></tr>';
+                    matchedTermsOrder.forEach((key, idx) => {
+                        const info = matchedTermsMap.get(key);
+                        if (!info) return;
+                        const t = info.term;
+                        termsTable += `<tr><td>${idx+1}</td><td>${escapeHTML(t.chinese||'')}</td><td>${escapeHTML(t.english||'')}</td><td>${escapeHTML(t.description||'')}</td><td>${escapeHTML(t.category||'')}</td><td>${info.matchType}</td></tr>`;
+                    });
+                    termsTable += '</table>';
+                }
 
-                    const fullHTML = `
-                    <html xmlns:o="urn:schemas-microsoft-com:office:office"
-                    xmlns:w="urn:schemas-microsoft-com:office:word"
-                    xmlns="http://www.w3.org/TR/REC-html40">
-                    <head><meta charset="UTF-8"><title>ASR转写文本</title></head>
-                    <body style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;padding:20px;color:#1f2329;">
-                    <h2>📝 ASR 实时转写记录</h2>
-                    <p style="color:#888;font-size:12px;">导出时间：${new Date().toLocaleString()}</p>
-                    <hr>
-                    ${bodyHTML}
-                    ${termsTableHTML}
-                    </body></html>`;
+                const fullHTML = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><title>ASR转写</title></head><body style="font-family:'PingFang SC',sans-serif;padding:20px;"><h2>📝 ASR 转写记录</h2><p style="color:#888;">导出时间：${new Date().toLocaleString()}</p><hr>${bodyHTML}${termsTable}</body></html>`;
+                const blob = new Blob([fullHTML], { type: 'application/msword;charset=UTF-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ASR转写_${new Date().toISOString().slice(0,10)}.doc`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('导出成功', 'success');
+            }
 
-                    const blob = new Blob([fullHTML], { type: 'application/msword;charset=UTF-8' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `ASR转写_${new Date().toISOString().slice(0,10)}.doc`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    showToast('导出成功！文件可用 Word 打开', 'success');
-                    }
-
-                    // ==================== 事件绑定 ====================
-                    // 导航切换
-                    navItems.forEach(item => {
-                    item.addEventListener('click', () => {
-                    const pageName = item.dataset.page;
+            // 事件绑定
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const page = item.dataset.page;
                     navItems.forEach(n => n.classList.remove('active'));
                     item.classList.add('active');
-                    pageWorkbench.classList.remove('active');
-                    pageTermbase.classList.remove('active');
-                    if (pageName === 'workbench') {
-                    pageWorkbench.classList.add('active');
-                    } else if (pageName === 'termbase') {
-                    pageTermbase.classList.add('active');
-                    renderTermBase(searchInput.value);
-                    }
-                    });
-                    });
+                    pageWorkbench.classList.toggle('active', page === 'workbench');
+                    pageTermbase.classList.toggle('active', page === 'termbase');
+                    if (page === 'termbase') renderTermBase(searchInput.value);
+                });
+            });
 
-                    // 录音按钮
-                    btnRecord.addEventListener('click', () => {
-                    if (isRecording) {
-                    stopRecording();
-                    } else {
-                    startRecording();
-                    }
-                    });
-
-                    // 语言切换
-                    langOptions.forEach(opt => {
-                    opt.addEventListener('click', () => {
-                    if (isRecording) {
-                    showToast('请先停止录音再切换语言', 'info');
-                    return;
-                    }
+            btnRecord.addEventListener('click', () => isRecording ? stopRecording() : startRecording());
+            langOptions.forEach(opt => {
+                opt.addEventListener('click', () => {
+                    if (isRecording) { showToast('请先停止录音再切换语言', 'info'); return; }
                     langOptions.forEach(o => o.classList.remove('active'));
                     opt.classList.add('active');
                     currentLang = opt.dataset.lang;
                     statusIndicator.textContent = `⚪ 就绪 (${currentLang === 'zh-CN' ? '中文' : 'English'})`;
-                    });
-                    });
+                });
+            });
+            btnExport.addEventListener('click', exportToDocx);
+            btnClearTranscript.addEventListener('click', () => {
+                if (isRecording && !confirm('正在录音，确定清空吗？')) return;
+                stableText = ''; interimText = '';
+                matchedTermsMap.clear(); matchedTermsOrder.length = 0;
+                updateTranscriptHighlight();
+                renderTermsPanel();
+                showToast('转写文本已清空', 'info');
+            });
+            searchInput.addEventListener('input', () => renderTermBase(searchInput.value));
+            btnAddTerm.addEventListener('click', openAddModal);
+            btnBatchUpload.addEventListener('click', () => batchFileInput.click());
+            batchFileInput.addEventListener('change', (e) => {
+                if (e.target.files[0]) { handleBatchFile(e.target.files[0]); batchFileInput.value = ''; }
+            });
+            btnModalCancel.addEventListener('click', closeModal);
+            btnModalSave.addEventListener('click', saveModal);
+            modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
 
-                    // 导出按钮
-                    btnExport.addEventListener('click', exportToDocx);
-
-                    // 清空按钮
-                    btnClearTranscript.addEventListener('click', () => {
-                    if (isRecording) {
-                    if (!confirm('正在录音中，确定清空转写文本吗？录音将继续进行。')) return;
-                    }
-                    stableText = '';
-                    interimText = '';
-                    resetWorkbenchMatches();
-                    updateTranscriptHighlight();
-                    renderTermsPanel();
-                    showToast('转写文本已清空', 'info');
-                    });
-
-                    // 术语库搜索
-                    searchInput.addEventListener('input', () => {
-                    renderTermBase(searchInput.value);
-                    });
-
-                    // 添加术语按钮
-                    btnAddTerm.addEventListener('click', openAddModal);
-
-                    // 批量上传按钮
-                    btnBatchUpload.addEventListener('click', () => {
-                    batchFileInput.click();
-                    });
-                    batchFileInput.addEventListener('change', (e) => {
-                    if (e.target.files && e.target.files[0]) {
-                    handleBatchFile(e.target.files[0]);
-                    batchFileInput.value = '';
-                    }
-                    });
-
-                    // 模态框
-                    btnModalCancel.addEventListener('click', closeModal);
-                    btnModalSave.addEventListener('click', saveModal);
-                    modalOverlay.addEventListener('click', (e) => {
-                    if (e.target === modalOverlay) closeModal();
-                    });
-
-                    // 键盘快捷键
-                    document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') {
-                    if (modalOverlay.style.display === 'flex') {
-                    closeModal();
-                    } else if (isRecording) {
-                    stopRecording();
-                    }
-                    }
-                    // Ctrl+Shift+R 开始/停止录音
-                    if (e.ctrlKey && e.shiftKey && e.key === 'R') {
+            // 键盘快捷键
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (modalOverlay.style.display === 'flex') closeModal();
+                    else if (isRecording) stopRecording();
+                }
+                if (e.ctrlKey && e.shiftKey && e.key === 'R') {
                     e.preventDefault();
-                    if (isRecording) stopRecording();
-                    else startRecording();
-                    }
-                    });
+                    isRecording ? stopRecording() : startRecording();
+                }
+            });
 
-                    // 右侧术语面板滚动监听
-                    setupTermsScrollListener();
-
-                    // ==================== 初始化 ====================
-                    function init() {
-                    loadTermBase();
-                    renderTermBase();
-                    updateTranscriptHighlight();
-                    renderTermsPanel();
-                    statusIndicator.textContent = `⚪ 就绪 (${currentLang === 'zh-CN' ? '中文' : 'English'})`;
-                    // 检测浏览器支持
-                    if (!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)) {
-                    statusIndicator.textContent = '⚠️ 浏览器不支持语音识别';
-                    statusIndicator.style.color = '#f5a623';
-                    }
-                    if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window
-                        .location.hostname !== '127.0.0.1') {
-                    console.warn('语音识别需要HTTPS或localhost环境');
-                    }
-                    }
-
-                    init();
-                    console.log('🚀 ASR 实时转写工作台已就绪');
-                    console.log('   - 术语库已加载，共', termBase.length, '条术语');
-                    console.log('   - 快捷键: Ctrl+Shift+R 开始/停止录音');
-                    console.log('   - 点击高亮术语可定位到右侧卡片');
-                    })();
+            // 初始化
+            loadTermBase();
+            renderTermBase();
+            updateTranscriptHighlight();
+            renderTermsPanel();
+            statusIndicator.textContent = `⚪ 就绪 (${currentLang === 'zh-CN' ? '中文' : 'English'})`;
+            if (!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)) {
+                statusIndicator.textContent = '⚠️ 浏览器不支持语音识别';
+                statusIndicator.style.color = '#f5a623';
+            }
+            console.log('✅ ASR工作台已启动，术语库已加载', termBase.length, '条');
+        })();
     </script>
 </body>
 </html>
