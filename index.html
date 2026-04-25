@@ -19,1272 +19,710 @@
             --accent-light: #eef1fe;
             --danger: #f54a4a;
             --success: #2dbf6e;
-            --warning: #f5a623;
             --highlight-yellow: #fff3b8;
             --highlight-border: #f0c040;
             --highlight-fuzzy-bg: #ffe8d6;
             --highlight-fuzzy-border: #f0a060;
             --radius: 10px;
             --radius-sm: 6px;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow: 0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
             --transition: 0.2s ease;
         }
+        *{ margin:0; padding:0; box-sizing:border-box; }
+        body{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; background:var(--bg); color:var(--text); display:flex; height:100vh; overflow:hidden; -webkit-font-smoothing:antialiased; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        .sidebar{ width:220px; min-width:220px; background:var(--sidebar-bg); display:flex; flex-direction:column; z-index:10; user-select:none; }
+        .sidebar-logo{ padding:22px 20px 18px; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; gap:10px; }
+        .logo-icon{ width:34px; height:34px; border-radius:8px; background:linear-gradient(135deg,#4f6ef7,#7b8ff9); display:flex; align-items:center; justify-content:center; font-size:16px; color:#fff; flex-shrink:0; }
+        .logo-text{ color:#fff; font-weight:600; font-size:15px; }
+        .sidebar-nav{ flex:1; padding:14px 12px; display:flex; flex-direction:column; gap:4px; }
+        .nav-item{ display:flex; align-items:center; gap:10px; padding:11px 14px; border-radius:8px; cursor:pointer; color:var(--sidebar-text); font-size:14px; font-weight:500; transition:all var(--transition); text-decoration:none; }
+        .nav-item:hover{ background:var(--sidebar-hover); color:#d0d5dd; }
+        .nav-item.active{ background:rgba(79,110,247,0.2); color:#fff; font-weight:600; }
+        .nav-item.active::before{ content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:3px; height:20px; border-radius:3px; background:var(--accent); }
+        .nav-icon{ width:20px; text-align:center; font-size:15px; flex-shrink:0; }
+        .sidebar-footer{ padding:14px 16px; border-top:1px solid rgba(255,255,255,0.06); font-size:11px; color:#555; text-align:center; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+        .main-content{ flex:1; display:flex; flex-direction:column; overflow:hidden; }
+        .page{ display:none; flex:1; flex-direction:column; overflow:hidden; }
+        .page.active{ display:flex; }
 
-        .sidebar {
-            width: 220px;
-            min-width: 220px;
-            background: var(--sidebar-bg);
-            display: flex;
-            flex-direction: column;
-            padding: 0;
-            z-index: 10;
-            user-select: none;
-        }
-        .sidebar-logo {
-            padding: 22px 20px 18px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .sidebar-logo .logo-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, #4f6ef7, #7b8ff9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            color: #fff;
-            flex-shrink: 0;
-        }
-        .sidebar-logo .logo-text {
-            color: #fff;
-            font-weight: 600;
-            font-size: 15px;
-            letter-spacing: -0.2px;
-        }
-        .sidebar-nav {
-            flex: 1;
-            padding: 14px 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 11px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            color: var(--sidebar-text);
-            font-size: 14px;
-            font-weight: 500;
-            transition: all var(--transition);
-            text-decoration: none;
-        }
-        .nav-item:hover {
-            background: var(--sidebar-hover);
-            color: #d0d5dd;
-        }
-        .nav-item.active {
-            background: rgba(79, 110, 247, 0.2);
-            color: #ffffff;
-            font-weight: 600;
-        }
-        .nav-item.active::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 3px;
-            height: 20px;
-            border-radius: 3px;
-            background: var(--accent);
-        }
-        .nav-icon {
-            width: 20px;
-            text-align: center;
-            font-size: 15px;
-            flex-shrink: 0;
-        }
-        .sidebar-footer {
-            padding: 14px 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            font-size: 11px;
-            color: #555;
-            text-align: center;
-        }
+        .workbench{ display:flex; flex-direction:column; height:100%; }
+        .workbench-toolbar{ display:flex; align-items:center; gap:12px; padding:14px 20px; background:var(--card-bg); border-bottom:1px solid var(--border); flex-shrink:0; flex-wrap:wrap; box-shadow:var(--shadow); z-index:2; }
+        .btn{ display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border-radius:var(--radius-sm); font-size:13px; font-weight:500; cursor:pointer; border:1px solid transparent; transition:all var(--transition); white-space:nowrap; font-family:inherit; outline:none; }
+        .btn-primary{ background:var(--accent); color:#fff; }
+        .btn-primary:hover{ background:#3d5de0; }
+        .btn-danger{ background:#fff; color:var(--danger); border-color:#fdd; }
+        .btn-outline{ background:#fff; color:var(--text); border-color:var(--border); }
+        .btn-recording{ background:#f54a4a!important; border-color:#f54a4a!important; color:#fff!important; animation:pulse-rec 1.6s infinite; }
+        @keyframes pulse-rec { 0%,100%{ box-shadow:0 0 0 0 rgba(245,74,74,0.55); } 50%{ box-shadow:0 0 0 14px rgba(245,74,74,0); } }
+        .recording-dot{ width:8px; height:8px; border-radius:50%; background:#fff; animation:blink-dot 0.7s infinite; }
+        @keyframes blink-dot{ 0%,100%{ opacity:1; } 50%{ opacity:0.2; } }
+        .lang-switch{ display:flex; align-items:center; gap:4px; background:#f5f6f8; border-radius:20px; padding:3px; border:1px solid var(--border); }
+        .lang-option{ padding:6px 13px; border-radius:18px; cursor:pointer; font-size:12px; font-weight:500; color:var(--text-secondary); background:transparent; border:none; font-family:inherit; }
+        .lang-option.active{ background:#fff; color:var(--accent); font-weight:600; box-shadow:0 1px 2px rgba(0,0,0,0.08); }
 
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
+        .workbench-body{ display:flex; flex:1; overflow:hidden; }
+        .transcript-panel{ flex:1; display:flex; flex-direction:column; border-right:1px solid var(--border); background:#fafbfc; }
+        .panel-header{ padding:12px 18px; font-weight:600; font-size:13px; color:var(--text-secondary); background:#fff; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+        .transcript-textarea{ flex:1; padding:18px 20px; overflow-y:auto; font-size:15px; line-height:1.8; white-space:pre-wrap; word-break:break-word; background:#fafbfc; }
+        .highlight-term{ background:var(--highlight-yellow); border-bottom:2px solid var(--highlight-border); padding:1px 2px; border-radius:2px; cursor:pointer; font-weight:500; }
+        .highlight-term.fuzzy{ background:var(--highlight-fuzzy-bg); border-bottom:2px dashed var(--highlight-fuzzy-border); }
+        .interim-text{ color:#999; font-style:italic; }
+        .transcript-placeholder{ color:#c0c5cc; text-align:center; padding-top:60px; font-size:14px; }
 
-        .page {
-            display: none;
-            flex: 1;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        .page.active {
-            display: flex;
-        }
+        .terms-panel{ width:340px; min-width:280px; display:flex; flex-direction:column; overflow:hidden; background:#fff; }
+        .terms-list{ flex:1; overflow-y:auto; padding:10px 12px; display:flex; flex-direction:column; gap:6px; }
+        .term-card{ background:#f9fafb; border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; animation:slideIn 0.3s ease; }
+        @keyframes slideIn { from{ opacity:0; transform:translateY(-8px); } to{ opacity:1; transform:translateY(0); } }
+        .term-card.new-highlight{ border-color:var(--accent); background:var(--accent-light); box-shadow:0 0 0 3px rgba(79,110,247,0.08); }
+        .term-main{ display:flex; align-items:center; gap:8px; font-weight:600; font-size:14px; }
+        .term-separator{ color:#ccc; font-weight:400; }
+        .term-desc{ font-size:12px; color:var(--text-secondary); margin-top:4px; }
+        .term-category{ display:inline-block; font-size:10px; padding:2px 8px; border-radius:10px; background:#eef1fe; color:var(--accent); margin-top:6px; }
+        .match-type{ font-size:10px; padding:2px 6px; border-radius:3px; font-weight:500; }
+        .match-exact{ background:#d4fce4; color:#1a7d3d; }
+        .match-fuzzy{ background:#fff3d6; color:#a07020; }
+        .terms-list-empty{ text-align:center; color:#c0c5cc; padding-top:40px; font-size:13px; }
+        .badge-count{ font-size:11px; padding:2px 8px; border-radius:10px; background:#eef1fe; color:var(--accent); font-weight:600; }
 
-        .workbench-toolbar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 20px;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border);
-            flex-shrink: 0;
-            flex-wrap: wrap;
-            box-shadow: var(--shadow);
-            z-index: 2;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 9px 16px;
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: all var(--transition);
-            white-space: nowrap;
-            font-family: inherit;
-            outline: none;
-        }
-        .btn-primary {
-            background: var(--accent);
-            color: #fff;
-        }
-        .btn-primary:hover {
-            background: #3d5de0;
-        }
-        .btn-danger {
-            background: #fff;
-            color: var(--danger);
-            border-color: #fdd;
-        }
-        .btn-outline {
-            background: #fff;
-            color: var(--text);
-            border-color: var(--border);
-        }
-        .btn-recording {
-            background: #f54a4a !important;
-            border-color: #f54a4a !important;
-            color: #fff !important;
-            animation: pulse-rec 1.6s infinite;
-        }
-        @keyframes pulse-rec {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 74, 74, 0.55); }
-            50% { box-shadow: 0 0 0 14px rgba(245, 74, 74, 0); }
-        }
-        .recording-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #fff;
-            animation: blink-dot 0.7s infinite;
-        }
-        @keyframes blink-dot {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.2; }
-        }
-        .lang-switch {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background: #f5f6f8;
-            border-radius: 20px;
-            padding: 3px;
-            border: 1px solid var(--border);
-        }
-        .lang-option {
-            padding: 6px 13px;
-            border-radius: 18px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            background: transparent;
-            border: none;
-            font-family: inherit;
-        }
-        .lang-option.active {
-            background: #fff;
-            color: var(--accent);
-            font-weight: 600;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
-        }
+        .termbase-page{ display:flex; flex-direction:column; height:100%; background:#fafbfc; }
+        .termbase-toolbar{ display:flex; align-items:center; gap:10px; padding:14px 20px; background:#fff; border-bottom:1px solid var(--border); flex-shrink:0; flex-wrap:wrap; box-shadow:var(--shadow); z-index:2; }
+        .search-input{ flex:1; min-width:200px; max-width:400px; padding:9px 14px; border-radius:20px; border:1px solid var(--border); font-size:13px; outline:none; font-family:inherit; background:#f9fafb; }
+        .termbase-table-wrap{ flex:1; overflow:auto; padding:0 20px 20px; }
+        .termbase-table{ width:100%; border-collapse:collapse; font-size:13px; background:#fff; border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+        .termbase-table th{ background:#f9fafb; padding:12px 14px; text-align:left; font-weight:600; color:var(--text-secondary); border-bottom:2px solid var(--border); font-size:12px; white-space:nowrap; }
+        .termbase-table td{ padding:10px 14px; border-bottom:1px solid #f0f1f3; }
+        .termbase-table tbody tr:hover{ background:#f9fafb; }
+        .termbase-empty{ text-align:center; padding:60px; color:#c0c5cc; }
 
-        .workbench-body {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-        .transcript-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid var(--border);
-            background: #fafbfc;
-        }
-        .panel-header {
-            padding: 12px 18px;
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--text-secondary);
-            background: #fff;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-shrink: 0;
-        }
-        .transcript-textarea {
-            flex: 1;
-            padding: 18px 20px;
-            overflow-y: auto;
-            font-size: 15px;
-            line-height: 1.8;
-            white-space: pre-wrap;
-            word-break: break-word;
-            background: #fafbfc;
-            color: var(--text);
-        }
-        .highlight-term {
-            background: var(--highlight-yellow);
-            border-bottom: 2px solid var(--highlight-border);
-            padding: 1px 2px;
-            border-radius: 2px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.15s;
-        }
-        .highlight-term:hover {
-            background: #ffe680;
-        }
-        .highlight-term.fuzzy {
-            background: var(--highlight-fuzzy-bg);
-            border-bottom: 2px dashed var(--highlight-fuzzy-border);
-        }
-        .interim-text {
-            color: #999;
-            font-style: italic;
-        }
-        .transcript-placeholder {
-            color: #c0c5cc;
-            text-align: center;
-            padding-top: 60px;
-            font-size: 14px;
-        }
-
-        .terms-panel {
-            width: 340px;
-            min-width: 280px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            background: #fff;
-        }
-        .terms-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .term-card {
-            background: #f9fafb;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 12px 14px;
-            animation: slideIn 0.3s ease;
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .term-card.new-highlight {
-            border-color: var(--accent);
-            background: var(--accent-light);
-            box-shadow: 0 0 0 3px rgba(79,110,247,0.08);
-        }
-        .term-main {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .term-separator { color: #ccc; font-weight: 400; }
-        .term-desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
-        .term-category {
-            display: inline-block;
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            background: #eef1fe;
-            color: var(--accent);
-            margin-top: 6px;
-        }
-        .match-type {
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-weight: 500;
-        }
-        .match-exact { background: #d4fce4; color: #1a7d3d; }
-        .match-fuzzy { background: #fff3d6; color: #a07020; }
-        .terms-list-empty {
-            text-align: center;
-            color: #c0c5cc;
-            padding-top: 40px;
-            font-size: 13px;
-        }
-        .badge-count {
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            background: #eef1fe;
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        /* 术语库页面 */
-        .termbase-toolbar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 20px;
-            background: #fff;
-            border-bottom: 1px solid var(--border);
-            flex-shrink: 0;
-            flex-wrap: wrap;
-            box-shadow: var(--shadow);
-            z-index: 2;
-        }
-        .search-input {
-            flex: 1;
-            min-width: 200px;
-            max-width: 400px;
-            padding: 9px 14px;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            font-size: 13px;
-            outline: none;
-            transition: all var(--transition);
-            font-family: inherit;
-            background: #f9fafb;
-        }
-        .search-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(79,110,247,0.08);
-            background: #fff;
-        }
-        .termbase-table-wrap { flex: 1; overflow: auto; padding: 0 20px 20px; }
-        .termbase-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            background: #fff;
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-        .termbase-table th {
-            background: #f9fafb;
-            padding: 12px 14px;
-            text-align: left;
-            font-weight: 600;
-            color: var(--text-secondary);
-            border-bottom: 2px solid var(--border);
-            font-size: 12px;
-            white-space: nowrap;
-        }
-        .termbase-table td {
-            padding: 10px 14px;
-            border-bottom: 1px solid #f0f1f3;
-        }
-        .termbase-table tbody tr:hover { background: #f9fafb; }
-        .termbase-empty { text-align: center; padding: 60px; color: #c0c5cc; }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.4);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            display: none;
-        }
-        .modal {
-            background: #fff;
-            border-radius: var(--radius);
-            padding: 24px;
-            width: 90%;
-            max-width: 520px;
-            box-shadow: var(--shadow-md);
-        }
-        .modal h3 { margin-bottom: 16px; }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 9px 12px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            font-family: inherit;
-            resize: vertical;
-        }
-        .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
-        .required-star { color: var(--danger); }
-
-        .toast {
-            position: fixed;
-            top: 20px; right: 20px;
-            padding: 12px 20px;
-            border-radius: var(--radius-sm);
-            color: #fff;
-            font-size: 13px;
-            font-weight: 500;
-            z-index: 200;
-            box-shadow: var(--shadow-md);
-            animation: toastIn 0.3s ease, toastOut 0.3s ease 2.5s forwards;
-        }
-        @keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateX(40px); } }
-        .toast-success { background: #2dbf6e; }
-        .toast-error { background: #f54a4a; }
-        .toast-info { background: #4f6ef7; }
+        .modal-overlay{ position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.4); z-index:100; display:none; align-items:center; justify-content:center; }
+        .modal{ background:#fff; border-radius:var(--radius); padding:24px; width:90%; max-width:520px; box-shadow:var(--shadow-md); }
+        .modal h3{ margin-bottom:16px; }
+        .form-group{ margin-bottom:12px; }
+        .form-group label{ display:block; font-size:12px; font-weight:600; color:var(--text-secondary); margin-bottom:4px; }
+        .form-group input,.form-group textarea{ width:100%; padding:9px 12px; border:1px solid var(--border); border-radius:var(--radius-sm); font-size:13px; font-family:inherit; resize:vertical; }
+        .modal-actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:16px; }
+        .required-star{ color:var(--danger); }
+        .toast{ position:fixed; top:20px; right:20px; padding:12px 20px; border-radius:var(--radius-sm); color:#fff; font-size:13px; font-weight:500; z-index:200; box-shadow:var(--shadow-md); animation:toastIn 0.3s ease,toastOut 0.3s ease 2.5s forwards; }
+        @keyframes toastIn{ from{opacity:0;transform:translateX(40px);} to{opacity:1;transform:translateX(0);} }
+        @keyframes toastOut{ from{opacity:1;} to{opacity:0;transform:translateX(40px);} }
+        .toast-success{ background:#2dbf6e; }
+        .toast-error{ background:#f54a4a; }
+        .toast-info{ background:#4f6ef7; }
     </style>
 </head>
 <body>
-    <aside class="sidebar">
-        <div class="sidebar-logo">
-            <div class="logo-icon">🎙</div>
-            <span class="logo-text">ASR 工作台</span>
-        </div>
-        <nav class="sidebar-nav">
-            <div class="nav-item active" data-page="workbench">
-                <span class="nav-icon">⚡</span> <span>工作台</span>
-            </div>
-            <div class="nav-item" data-page="termbase">
-                <span class="nav-icon">📚</span> <span>术语库</span>
-            </div>
-        </nav>
-        <div class="sidebar-footer">v2.0 · Web Speech API</div>
-    </aside>
+<aside class="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🎙</div><span class="logo-text">ASR 工作台</span></div>
+    <nav class="sidebar-nav">
+        <div class="nav-item active" data-page="workbench"><span class="nav-icon">⚡</span> <span>工作台</span></div>
+        <div class="nav-item" data-page="termbase"><span class="nav-icon">📚</span> <span>术语库</span></div>
+    </nav>
+    <div class="sidebar-footer">v2.2 · 智能标点</div>
+</aside>
 
-    <main class="main-content">
-        <!-- 工作台页面 -->
-        <div class="page active" id="page-workbench">
-            <div class="workbench">
-                <div class="workbench-toolbar">
-                    <button class="btn btn-primary" id="btnRecord">
-                        <span id="btnRecordIcon">🎤</span>
-                        <span id="btnRecordText">开始录音</span>
-                    </button>
-                    <div class="lang-switch" id="langSwitch">
-                        <button class="lang-option active" data-lang="zh-CN">中文</button>
-                        <button class="lang-option" data-lang="en-US">English</button>
-                    </div>
-                    <span style="font-size:12px;color:var(--text-secondary);" id="statusIndicator">⚪ 就绪</span>
-                    <span style="flex:1;"></span>
-                    <button class="btn btn-outline btn-sm" id="btnExport">📥 导出 DOCX</button>
-                    <button class="btn btn-outline btn-sm" id="btnClearTranscript">🗑 清空</button>
+<main class="main-content">
+    <div class="page active" id="page-workbench">
+        <div class="workbench">
+            <div class="workbench-toolbar">
+                <button class="btn btn-primary" id="btnRecord"><span id="btnRecordIcon">🎤</span><span id="btnRecordText">开始录音</span></button>
+                <div class="lang-switch" id="langSwitch">
+                    <button class="lang-option active" data-lang="zh-CN">中文</button>
+                    <button class="lang-option" data-lang="en-US">English</button>
                 </div>
-                <div class="workbench-body">
-                    <div class="transcript-panel">
-                        <div class="panel-header">
-                            <span>📝 实时转写文本</span>
-                            <span class="badge-count" id="badgeWordCount">0 字</span>
-                        </div>
-                        <div class="transcript-textarea" id="transcriptArea">
-                            <div class="transcript-placeholder">点击「开始录音」按钮，实时转写将在此显示…</div>
-                        </div>
-                    </div>
-                    <div class="terms-panel" id="termsPanel">
-                        <div class="panel-header">
-                            <span>🔍 匹配术语</span>
-                            <span class="badge-count" id="badgeTermCount">0</span>
-                        </div>
-                        <div class="terms-list" id="termsList">
-                            <div class="terms-list-empty">等待术语匹配…</div>
-                        </div>
-                    </div>
-                </div>
+                <span style="font-size:12px;color:var(--text-secondary);" id="statusIndicator">⚪ 就绪</span>
+                <span style="flex:1;"></span>
+                <button class="btn btn-outline btn-sm" id="btnExport">📥 导出 DOCX</button>
+                <button class="btn btn-outline btn-sm" id="btnClearTranscript">🗑 清空</button>
             </div>
-        </div>
-
-        <!-- 术语库页面 -->
-        <div class="page" id="page-termbase">
-            <div class="termbase-page">
-                <div class="termbase-toolbar">
-                    <input type="text" class="search-input" id="searchInput" placeholder="🔍 搜索术语（中文 / 英文 / 分类）…">
-                    <button class="btn btn-primary btn-sm" id="btnAddTerm">＋ 添加术语</button>
-                    <button class="btn btn-outline btn-sm" id="btnBatchUpload">📂 批量导入 CSV</button>
-                    <span style="font-size:12px;color:var(--text-secondary);" id="termbaseStats">共 0 条术语</span>
+            <div class="workbench-body">
+                <div class="transcript-panel">
+                    <div class="panel-header"><span>📝 实时转写文本</span><span class="badge-count" id="badgeWordCount">0 字</span></div>
+                    <div class="transcript-textarea" id="transcriptArea"><div class="transcript-placeholder">点击「开始录音」按钮，实时转写将在此显示…</div></div>
                 </div>
-                <div class="termbase-table-wrap">
-                    <table class="termbase-table" id="termbaseTable">
-                        <thead>
-                            <tr><th>术语中文</th><th>术语英文</th><th>解释</th><th>分类</th><th>操作</th></tr>
-                        </thead>
-                        <tbody id="termbaseTbody"></tbody>
-                    </table>
-                    <div class="termbase-empty" id="termbaseEmpty">📭 术语库为空，点击「添加术语」或「批量导入」开始</div>
+                <div class="terms-panel" id="termsPanel">
+                    <div class="panel-header"><span>🔍 匹配术语</span><span class="badge-count" id="badgeTermCount">0</span></div>
+                    <div class="terms-list" id="termsList"><div class="terms-list-empty">等待术语匹配…</div></div>
                 </div>
-            </div>
-        </div>
-    </main>
-
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal">
-            <h3 id="modalTitle">添加术语</h3>
-            <div class="form-group"><label><span class="required-star">*</span> 术语中文</label><input type="text" id="inputTermCN" placeholder="例如：人工智能"></div>
-            <div class="form-group"><label><span class="required-star">*</span> 术语英文</label><input type="text" id="inputTermEN" placeholder="例如：Artificial Intelligence"></div>
-            <div class="form-group"><label>术语解释 <small style="color:#999;">（选填）</small></label><textarea id="inputTermDesc" placeholder="简要描述该术语…"></textarea></div>
-            <div class="form-group"><label>分类 <small style="color:#999;">（选填）</small></label><input type="text" id="inputTermCat" placeholder="例如：AI / 医学 / 法律"></div>
-            <input type="hidden" id="inputEditId" value="">
-            <div class="modal-actions">
-                <button class="btn btn-outline btn-sm" id="btnModalCancel">取消</button>
-                <button class="btn btn-primary btn-sm" id="btnModalSave">保存</button>
             </div>
         </div>
     </div>
 
-    <input type="file" id="batchFileInput" accept=".csv,.json" style="display:none;">
+    <div class="page" id="page-termbase">
+        <div class="termbase-page">
+            <div class="termbase-toolbar">
+                <input type="text" class="search-input" id="searchInput" placeholder="🔍 搜索术语（中文 / 英文 / 分类）…">
+                <button class="btn btn-primary btn-sm" id="btnAddTerm">＋ 添加术语</button>
+                <button class="btn btn-outline btn-sm" id="btnBatchUpload">📂 批量导入 CSV</button>
+                <span style="font-size:12px;color:var(--text-secondary);" id="termbaseStats">共 0 条术语</span>
+            </div>
+            <div class="termbase-table-wrap">
+                <table class="termbase-table" id="termbaseTable">
+                    <thead><tr><th>术语中文</th><th>术语英文</th><th>解释</th><th>分类</th><th>操作</th></tr></thead>
+                    <tbody id="termbaseTbody"></tbody>
+                </table>
+                <div class="termbase-empty" id="termbaseEmpty">📭 术语库为空，点击「添加术语」或「批量导入」开始</div>
+            </div>
+        </div>
+    </div>
+</main>
 
-    <script>
-        (function() {
-            const STORAGE_KEY = 'asr_termbase_v2';
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <h3 id="modalTitle">添加术语</h3>
+        <div class="form-group"><label><span class="required-star">*</span> 术语中文</label><input type="text" id="inputTermCN" placeholder="例如：人工智能"></div>
+        <div class="form-group"><label><span class="required-star">*</span> 术语英文</label><input type="text" id="inputTermEN" placeholder="例如：Artificial Intelligence"></div>
+        <div class="form-group"><label>术语解释 <small style="color:#999;">（选填）</small></label><textarea id="inputTermDesc"></textarea></div>
+        <div class="form-group"><label>分类 <small style="color:#999;">（选填）</small></label><input type="text" id="inputTermCat" placeholder="例如：AI / 医学"></div>
+        <input type="hidden" id="inputEditId" value="">
+        <div class="modal-actions">
+            <button class="btn btn-outline btn-sm" id="btnModalCancel">取消</button>
+            <button class="btn btn-primary btn-sm" id="btnModalSave">保存</button>
+        </div>
+    </div>
+</div>
 
-            // DOM引用
-            const $ = (sel) => document.querySelector(sel);
-            const $$ = (sel) => document.querySelectorAll(sel);
+<input type="file" id="batchFileInput" accept=".csv,.json" style="display:none;">
 
-            const navItems = $$('.sidebar-nav .nav-item');
-            const pageWorkbench = $('#page-workbench');
-            const pageTermbase = $('#page-termbase');
+<script>
+(function() {
+    const STORAGE_KEY = 'asr_termbase_v2';
+    const $ = s => document.querySelector(s);
+    const $$ = s => document.querySelectorAll(s);
 
-            const btnRecord = $('#btnRecord');
-            const btnRecordIcon = $('#btnRecordIcon');
-            const btnRecordText = $('#btnRecordText');
-            const statusIndicator = $('#statusIndicator');
-            const transcriptArea = $('#transcriptArea');
-            const termsList = $('#termsList');
-            const badgeWordCount = $('#badgeWordCount');
-            const badgeTermCount = $('#badgeTermCount');
-            const btnExport = $('#btnExport');
-            const btnClearTranscript = $('#btnClearTranscript');
-            const langOptions = $$('.lang-switch .lang-option');
+    let termBase = [];
+    let currentLang = 'zh-CN';
+    let isRecording = false;
+    let recognition = null;
 
-            const searchInput = $('#searchInput');
-            const termbaseTbody = $('#termbaseTbody');
-            const termbaseEmpty = $('#termbaseEmpty');
-            const termbaseStats = $('#termbaseStats');
-            const btnAddTerm = $('#btnAddTerm');
-            const btnBatchUpload = $('#btnBatchUpload');
-            const batchFileInput = $('#batchFileInput');
+    // 带标点的最终文本
+    let stableText = '';
+    // 暂存未确认的临时文本
+    let interimText = '';
+    // 记录已经处理的 final 结果索引
+    let lastProcessedFinalIndex = -1;
+    // 记录上一个 final 片段的时间戳，用于判断停顿
+    let lastFinalTime = 0;
 
-            const modalOverlay = $('#modalOverlay');
-            const modalTitle = $('#modalTitle');
-            const inputTermCN = $('#inputTermCN');
-            const inputTermEN = $('#inputTermEN');
-            const inputTermDesc = $('#inputTermDesc');
-            const inputTermCat = $('#inputTermCat');
-            const inputEditId = $('#inputEditId');
-            const btnModalCancel = $('#btnModalCancel');
-            const btnModalSave = $('#btnModalSave');
+    let matchedTermsMap = new Map();
+    let matchedTermsOrder = [];
+    let autoScrollTerms = true;
+    let termsScrollTimeout = null;
 
-            // 状态
-            let termBase = [];
-            let currentLang = 'zh-CN';
-            let isRecording = false;
-            let recognition = null;
-            let stableText = '';
-            let interimText = '';
-            let matchedTermsMap = new Map(); // key: termId_matchType -> { term, matchType, firstSeenIndex }
-            let matchedTermsOrder = []; // 顺序keys
-            let autoScrollTerms = true;
-            let termsScrollTimeout = null;
+    function normalizeText(str) { return str.replace(/[\s\p{P}\p{S}]+/gu, '').toLowerCase(); }
+    function escapeHTML(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
+    function showToast(msg, type='info') {
+        const t = document.createElement('div');
+        t.className = `toast toast-${type}`;
+        t.textContent = msg;
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 3000);
+    }
 
-            // 标准化函数
-            function normalizeText(str) {
-                return str.replace(/[\s\p{P}\p{S}]+/gu, '').toLowerCase();
-            }
+    // ---------- 术语库操作 ----------
+    function loadTermBase() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            termBase = raw ? JSON.parse(raw) : [];
+            if (!Array.isArray(termBase)) termBase = [];
+        } catch(e) { termBase = []; }
+        if (termBase.length === 0) {
+            const samples = [
+                { chinese:'人工智能', english:'Artificial Intelligence', description:'计算机科学分支', category:'AI' },
+                { chinese:'机器学习', english:'Machine Learning', description:'让计算机从数据中学习', category:'AI' },
+                { chinese:'深度学习', english:'Deep Learning', description:'基于神经网络的机器学习', category:'AI' },
+                { chinese:'自然语言处理', english:'Natural Language Processing', description:'处理人类语言数据', category:'NLP' },
+                { chinese:'语音识别', english:'Speech Recognition', description:'将语音转为文本', category:'ASR' },
+                { chinese:'术语库', english:'Termbase', description:'存储术语及其翻译', category:'术语' },
+                { chinese:'实时转写', english:'Real-time Transcription', description:'即时语音转文字', category:'功能' },
+                { chinese:'麦克风', english:'Microphone', description:'采集声音的输入设备', category:'硬件' }
+            ];
+            samples.forEach(s => termBase.push({
+                id: 't_' + Date.now() + Math.random().toString(36),
+                chinese: s.chinese, english: s.english,
+                description: s.description, category: s.category,
+                createdAt: Date.now()
+            }));
+            saveTermBase();
+            showToast('已自动添加8条示例术语', 'info');
+        }
+    }
+    function saveTermBase() { localStorage.setItem(STORAGE_KEY, JSON.stringify(termBase)); }
 
-            function escapeHTML(str) {
-                const div = document.createElement('div');
-                div.textContent = str;
-                return div.innerHTML;
-            }
+    function addTerm(cn, en, desc, cat) {
+        const id = 't_' + Date.now() + Math.random().toString(36);
+        termBase.push({ id, chinese: cn.trim(), english: en.trim(), description: desc.trim(), category: cat.trim(), createdAt: Date.now() });
+        saveTermBase();
+    }
+    function updateTerm(id, cn, en, desc, cat) {
+        const term = termBase.find(t => t.id === id);
+        if (!term) return false;
+        term.chinese = cn.trim(); term.english = en.trim(); term.description = desc.trim(); term.category = cat.trim();
+        saveTermBase();
+        return true;
+    }
+    function deleteTerm(id) {
+        const idx = termBase.findIndex(t => t.id === id);
+        if (idx === -1) return false;
+        termBase.splice(idx, 1);
+        saveTermBase();
+        return true;
+    }
 
-            // Toast
-            function showToast(message, type = 'info') {
-                const toast = document.createElement('div');
-                toast.className = `toast toast-${type}`;
-                toast.textContent = message;
-                document.body.appendChild(toast);
-                setTimeout(() => toast.remove(), 3000);
-            }
-
-            // 术语库持久化
-            function loadTermBase() {
-                try {
-                    const raw = localStorage.getItem(STORAGE_KEY);
-                    if (raw) termBase = JSON.parse(raw);
-                    if (!Array.isArray(termBase)) termBase = [];
-                } catch (e) { termBase = []; }
-                // 首次使用自动添加示例术语
-                if (termBase.length === 0) {
-                    const samples = [
-                        { chinese: '人工智能', english: 'Artificial Intelligence', description: '计算机科学的一个分支', category: 'AI' },
-                        { chinese: '机器学习', english: 'Machine Learning', description: '使计算机无需明确编程即可学习', category: 'AI' },
-                        { chinese: '深度学习', english: 'Deep Learning', description: '基于人工神经网络的机器学习方法', category: 'AI' },
-                        { chinese: '自然语言处理', english: 'Natural Language Processing', description: '处理和分析大量自然语言数据', category: 'NLP' },
-                        { chinese: '语音识别', english: 'Speech Recognition', description: '将语音转换为文本的技术', category: 'ASR' },
-                        { chinese: '术语库', english: 'Termbase', description: '存储术语及其翻译的数据库', category: '术语' },
-                        { chinese: '实时转写', english: 'Real-time Transcription', description: '即时将语音转为文字', category: '功能' },
-                        { chinese: '麦克风', english: 'Microphone', description: '采集声音的输入设备', category: '硬件' }
-                    ];
-                    samples.forEach(s => addTerm(s.chinese, s.english, s.description, s.category));
-                    showToast('已自动添加8条示例术语，可前往术语库管理', 'info');
-                }
-            }
-
-            function saveTermBase() {
-                try { localStorage.setItem(STORAGE_KEY, JSON.stringify(termBase)); } catch (e) { showToast('存储空间不足', 'error'); }
-            }
-
-            function generateId() {
-                return 't_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-            }
-
-            function addTerm(chinese, english, description, category) {
-                const id = generateId();
-                termBase.push({
-                    id,
-                    chinese: chinese.trim(),
-                    english: english.trim(),
-                    description: (description || '').trim(),
-                    category: (category || '').trim(),
-                    createdAt: Date.now()
-                });
-                saveTermBase();
-            }
-
-            function updateTerm(id, chinese, english, description, category) {
-                const idx = termBase.findIndex(t => t.id === id);
-                if (idx === -1) return false;
-                termBase[idx].chinese = chinese.trim();
-                termBase[idx].english = english.trim();
-                termBase[idx].description = (description || '').trim();
-                termBase[idx].category = (category || '').trim();
-                saveTermBase();
-                return true;
-            }
-
-            function deleteTerm(id) {
-                const idx = termBase.findIndex(t => t.id === id);
-                if (idx === -1) return false;
-                termBase.splice(idx, 1);
-                saveTermBase();
-                return true;
-            }
-
-            // 术语库UI
-            function renderTermBase(filterText = '') {
-                const filter = (filterText || '').toLowerCase().trim();
-                let filtered = termBase;
-                if (filter) {
-                    filtered = termBase.filter(t =>
-                        (t.chinese || '').toLowerCase().includes(filter) ||
-                        (t.english || '').toLowerCase().includes(filter) ||
-                        (t.category || '').toLowerCase().includes(filter)
-                    );
-                }
-                termbaseTbody.innerHTML = '';
-                if (filtered.length === 0) {
-                    termbaseEmpty.style.display = 'block';
-                } else {
-                    termbaseEmpty.style.display = 'none';
-                    filtered.forEach(t => {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td><strong>${escapeHTML(t.chinese || '—')}</strong></td>
-                            <td>${escapeHTML(t.english || '—')}</td>
-                            <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHTML(t.description || '')}">${escapeHTML(t.description || '—')}</td>
-                            <td>${t.category ? `<span style="font-size:11px;padding:2px 8px;border-radius:10px;background:#eef1fe;color:var(--accent);">${escapeHTML(t.category)}</span>` : '—'}</td>
-                            <td>
-                                <div style="display:flex;gap:6px;">
-                                    <button class="btn btn-outline btn-xs btn-edit-term" data-id="${t.id}">✏️</button>
-                                    <button class="btn btn-danger btn-xs btn-del-term" data-id="${t.id}">🗑</button>
-                                </div>
-                            </td>
-                        `;
-                        termbaseTbody.appendChild(tr);
-                    });
-                }
-                termbaseStats.textContent = `共 ${termBase.length} 条术语`;
-                $$('.btn-edit-term').forEach(btn => btn.addEventListener('click', () => openEditModal(btn.dataset.id)));
-                $$('.btn-del-term').forEach(btn => btn.addEventListener('click', () => {
-                    if (confirm('确定删除该术语吗？')) {
-                        deleteTerm(btn.dataset.id);
-                        renderTermBase(searchInput.value);
-                        performGlobalMatch(); // 重新匹配
-                        showToast('术语已删除', 'success');
-                    }
-                }));
-            }
-
-            // 模态框
-            function openAddModal() {
-                modalTitle.textContent = '添加术语';
-                inputTermCN.value = ''; inputTermEN.value = ''; inputTermDesc.value = ''; inputTermCat.value = ''; inputEditId.value = '';
-                modalOverlay.style.display = 'flex';
-                inputTermCN.focus();
-            }
-            function openEditModal(id) {
-                const term = termBase.find(t => t.id === id);
-                if (!term) return;
-                modalTitle.textContent = '编辑术语';
-                inputTermCN.value = term.chinese || ''; inputTermEN.value = term.english || '';
-                inputTermDesc.value = term.description || ''; inputTermCat.value = term.category || '';
-                inputEditId.value = id;
-                modalOverlay.style.display = 'flex';
-            }
-            function closeModal() { modalOverlay.style.display = 'none'; inputEditId.value = ''; }
-            function saveModal() {
-                const cn = inputTermCN.value.trim();
-                const en = inputTermEN.value.trim();
-                if (!cn && !en) { showToast('至少填写中文或英文', 'error'); return; }
-                const desc = inputTermDesc.value.trim();
-                const cat = inputTermCat.value.trim();
-                const editId = inputEditId.value;
-                if (editId) {
-                    updateTerm(editId, cn, en, desc, cat);
-                    showToast('术语已更新', 'success');
-                } else {
-                    addTerm(cn, en, desc, cat);
-                    showToast('术语已添加', 'success');
-                }
-                closeModal();
-                renderTermBase(searchInput.value);
-                performGlobalMatch(); // 重新匹配
-            }
-
-            // 批量导入CSV
-            function parseCSVLine(line) {
-                const result = []; let current = ''; let inQuotes = false;
-                for (const ch of line) {
-                    if (ch === '"') inQuotes = !inQuotes;
-                    else if (ch === ',' && !inQuotes) { result.push(current); current = ''; }
-                    else current += ch;
-                }
-                result.push(current);
-                return result;
-            }
-            function handleBatchFile(file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const text = e.target.result;
-                    let parsed = [];
-                    if (file.name.endsWith('.json')) {
-                        try {
-                            const data = JSON.parse(text);
-                            if (Array.isArray(data)) {
-                                parsed = data.map(item => ({
-                                    chinese: item.chinese || item['术语中文'] || item.cn || '',
-                                    english: item.english || item['术语英文'] || item.en || '',
-                                    description: item.description || item['术语解释'] || item.desc || '',
-                                    category: item.category || item['分类'] || item.cat || '',
-                                }));
-                            }
-                        } catch (err) { showToast('JSON 解析失败', 'error'); return; }
-                    } else {
-                        const lines = text.split(/\r?\n/).filter(line => line.trim());
-                        const startIdx = (lines[0] && lines[0].toLowerCase().includes('中文') || lines[0].toLowerCase().includes('english')) ? 1 : 0;
-                        for (let i = startIdx; i < lines.length; i++) {
-                            const cols = parseCSVLine(lines[i]);
-                            if (cols.length >= 2 && (cols[0]?.trim() || cols[1]?.trim())) {
-                                parsed.push({
-                                    chinese: (cols[0] || '').trim(),
-                                    english: (cols[1] || '').trim(),
-                                    description: (cols[2] || '').trim(),
-                                    category: (cols[3] || '').trim(),
-                                });
-                            }
-                        }
-                    }
-                    if (parsed.length === 0) { showToast('未解析到有效术语', 'error'); return; }
-                    parsed.forEach(item => addTerm(item.chinese, item.english, item.description, item.category));
-                    showToast(`成功导入 ${parsed.length} 条术语`, 'success');
-                    renderTermBase(searchInput.value);
-                    performGlobalMatch();
-                };
-                reader.readAsText(file);
-            }
-
-            // ---- 核心：术语匹配 ----
-            function performGlobalMatch() {
-                matchedTermsMap.clear();
-                matchedTermsOrder.length = 0;
-                if (!stableText.trim()) {
-                    renderTermsPanel();
-                    updateTranscriptHighlight();
-                    return;
-                }
-                const fullText = stableText;
-                const lowerFull = fullText.toLowerCase();
-
-                // 遍历所有术语，同时检查精准和模糊
-                for (const term of termBase) {
-                    let exactFound = false;
-                    // 精准匹配：直接子串检查（不区分大小写）
-                    const searchPairs = [];
-                    if (term.chinese) searchPairs.push({ text: term.chinese, lower: term.chinese.toLowerCase() });
-                    if (term.english) {
-                        searchPairs.push({ text: term.english, lower: term.english.toLowerCase() });
-                        // 也加入小写版本以确保搜索
-                        if (term.english.toLowerCase() !== term.english) searchPairs.push({ text: term.english.toLowerCase(), lower: term.english.toLowerCase() });
-                    }
-                    for (const sp of searchPairs) {
-                        if (lowerFull.includes(sp.lower)) {
-                            exactFound = true;
-                            const key = term.id + '_exact';
-                                                        if (!matchedTermsMap.has(key)) {
-                                matchedTermsMap.set(key, { term, matchType: 'exact', firstSeenIndex: matchedTermsOrder.length });
-                                matchedTermsOrder.push(key);
-                                break; // 精准匹配只记一次
-                            }
-                        }
-                    }
-                    if (exactFound) continue; // 已有精准匹配，跳过模糊
-
-                    // 模糊匹配：标准化后检查
-                    const normFull = normalizeText(fullText);
-                    const normTermCN = normalizeText(term.chinese || '');
-                    const normTermEN = normalizeText(term.english || '');
-                    const fuzzyHit = (normTermCN && normFull.includes(normTermCN)) || (normTermEN && normFull.includes(normTermEN));
-                    if (fuzzyHit) {
-                        const key = term.id + '_fuzzy';
-                        if (!matchedTermsMap.has(key)) {
-                            matchedTermsMap.set(key, { term, matchType: 'fuzzy', firstSeenIndex: matchedTermsOrder.length });
-                            matchedTermsOrder.push(key);
-                        }
-                    }
-                }
-
-                renderTermsPanel();
-                updateTranscriptHighlight();
-            }
-
-            // 渲染右侧术语面板
-            function renderTermsPanel() {
-                if (matchedTermsOrder.length === 0) {
-                    termsList.innerHTML = '<div class="terms-list-empty">未匹配到术语，请先在术语库添加</div>';
-                    badgeTermCount.textContent = '0';
-                    return;
-                }
-                let html = '';
-                for (let i = 0; i < matchedTermsOrder.length; i++) {
-                    const key = matchedTermsOrder[i];
-                    const info = matchedTermsMap.get(key);
-                    if (!info) continue;
-                    const { term, matchType } = info;
-                    const matchLabel = matchType === 'exact' ? '精准' : '模糊';
-                    const matchClass = matchType === 'exact' ? 'match-exact' : 'match-fuzzy';
-                    html += `
-                        <div class="term-card" data-term-id="${term.id}" data-match-key="${key}">
-                            <div class="term-main">
-                                <span>${escapeHTML(term.chinese || '—')}</span>
-                                <span class="term-separator">|</span>
-                                <span>${escapeHTML(term.english || '—')}</span>
-                                <span class="match-type ${matchClass}">${matchLabel}</span>
-                            </div>
-                            ${term.description ? `<div class="term-desc">${escapeHTML(term.description)}</div>` : ''}
-                            ${term.category ? `<span class="term-category">${escapeHTML(term.category)}</span>` : ''}
-                        </div>`;
-                }
-                termsList.innerHTML = html;
-                badgeTermCount.textContent = matchedTermsOrder.length;
-
-                if (autoScrollTerms) {
-                    requestAnimationFrame(() => {
-                        const last = termsList.querySelector('.term-card:last-child');
-                        if (last) last.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                    });
-                }
-            }
-
-            // 高亮转写文本
-            function updateTranscriptHighlight() {
-                let displayText = stableText;
-                if (interimText) displayText += '\n' + interimText;
-                if (!displayText.trim()) {
-                    transcriptArea.innerHTML = '<div class="transcript-placeholder">点击「开始录音」按钮，实时转写将在此显示…</div>';
-                    badgeWordCount.textContent = '0 字';
-                    return;
-                }
-
-                // 收集所有匹配的术语文本及其类型
-                const highlightItems = [];
-                for (const [key, info] of matchedTermsMap) {
-                    const { term, matchType } = info;
-                    const addText = (text) => {
-                        if (text && text.length > 0) highlightItems.push({ text, matchType, termId: term.id });
-                    };
-                    addText(term.chinese);
-                    addText(term.english);
-                    addText(term.english.toLowerCase());
-                }
-                // 去重并按长度降序
-                const unique = [];
-                const seen = new Set();
-                highlightItems.forEach(h => {
-                    const k = h.text + '|' + h.matchType;
-                    if (!seen.has(k)) { seen.add(k); unique.push(h); }
-                });
-                unique.sort((a, b) => b.text.length - a.text.length);
-
-                let html = escapeHTML(displayText);
-                const usedRanges = [];
-                const spans = [];
-
-                unique.forEach(h => {
-                    const escapedTerm = escapeHTML(h.text);
-                    const lowerHtml = html.toLowerCase();
-                    const lowerTerm = escapedTerm.toLowerCase();
-                    let searchFrom = 0;
-                    while (true) {
-                        const idx = lowerHtml.indexOf(lowerTerm, searchFrom);
-                        if (idx === -1) break;
-                        // 检查重叠
-                        let overlap = false;
-                        for (const [s, e] of usedRanges) {
-                            if (idx < e && idx + lowerTerm.length > s) { overlap = true; break; }
-                        }
-                        if (!overlap) {
-                            const originalSlice = html.slice(idx, idx + escapedTerm.length);
-                            const cssClass = h.matchType === 'fuzzy' ? 'highlight-term fuzzy' : 'highlight-term';
-                            const span = `<span class="${cssClass}" data-term-id="${h.termId}" title="${escapeHTML(h.termId)}">${originalSlice}</span>`;
-                            spans.push({ idx, len: escapedTerm.length, span });
-                            usedRanges.push([idx, idx + escapedTerm.length]);
-                            searchFrom = idx + escapedTerm.length;
-                        } else {
-                            searchFrom = idx + 1;
-                        }
-                    }
-                });
-
-                spans.sort((a, b) => b.idx - a.idx);
-                spans.forEach(s => { html = html.slice(0, s.idx) + s.span + html.slice(s.idx + s.len); });
-
-                // interim样式
-                if (interimText) {
-                    const escapedInterim = escapeHTML(interimText);
-                    const iIdx = html.lastIndexOf(escapedInterim);
-                    if (iIdx >= 0 && (iIdx > html.lastIndexOf('<span') || html.lastIndexOf('<span') === -1)) {
-                        html = html.slice(0, iIdx) + `<span class="interim-text">${escapedInterim}</span>` + html.slice(iIdx + escapedInterim.length);
-                    }
-                }
-
-                transcriptArea.innerHTML = html;
-                badgeWordCount.textContent = displayText.replace(/\s/g, '').length + ' 字';
-
-                // 点击高亮词定位右侧卡片
-                transcriptArea.querySelectorAll('.highlight-term').forEach(el => {
-                    el.addEventListener('click', () => {
-                        const termId = el.dataset.termId;
-                        const card = termsList.querySelector(`[data-term-id="${termId}"]`);
-                        if (card) {
-                            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            card.classList.add('new-highlight');
-                            setTimeout(() => card.classList.remove('new-highlight'), 1200);
-                        }
-                    });
-                });
-            }
-
-            // 监听右侧面板滚动以控制自动滚动
-            termsList.addEventListener('scroll', () => {
-                const atBottom = termsList.scrollHeight - termsList.scrollTop - termsList.clientHeight < 40;
-                if (!atBottom) {
-                    autoScrollTerms = false;
-                    if (termsScrollTimeout) clearTimeout(termsScrollTimeout);
-                    termsScrollTimeout = setTimeout(() => { autoScrollTerms = true; }, 3000);
-                } else { autoScrollTerms = true; }
+    function renderTermBase(filter='') {
+        const f = filter.toLowerCase().trim();
+        let filtered = termBase;
+        if (f) filtered = termBase.filter(t => (t.chinese+t.english+t.category).toLowerCase().includes(f));
+        const tbody = $('#termbaseTbody');
+        tbody.innerHTML = '';
+        if (filtered.length === 0) {
+            $('#termbaseEmpty').style.display = 'block';
+        } else {
+            $('#termbaseEmpty').style.display = 'none';
+            filtered.forEach(t => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td><strong>${escapeHTML(t.chinese||'—')}</strong></td><td>${escapeHTML(t.english||'—')}</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${escapeHTML(t.description||'')}">${escapeHTML(t.description||'—')}</td><td>${t.category?`<span style="font-size:11px;padding:2px 8px;border-radius:10px;background:#eef1fe;color:var(--accent);">${escapeHTML(t.category)}</span>`:'—'}</td><td><div style="display:flex;gap:6px;"><button class="btn btn-outline btn-xs edit-term" data-id="${t.id}">✏️</button><button class="btn btn-danger btn-xs del-term" data-id="${t.id}">🗑</button></div></td>`;
+                tbody.appendChild(tr);
             });
+        }
+        $('#termbaseStats').textContent = `共 ${termBase.length} 条术语`;
+        $$('.edit-term').forEach(b => b.onclick = () => openEditModal(b.dataset.id));
+        $$('.del-term').forEach(b => b.onclick = () => {
+            if (confirm('确定删除该术语吗？')) { deleteTerm(b.dataset.id); renderTermBase($('#searchInput').value); performGlobalMatch(); }
+        });
+    }
 
-            // ---- 语音识别 ----
-            function getSpeechRecognition() {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (!SpeechRecognition) return null;
-                const rec = new SpeechRecognition();
-                rec.continuous = true;
-                rec.interimResults = true;
-                rec.lang = currentLang;
-                rec.maxAlternatives = 1;
-                return rec;
-            }
+    // 模态框
+    function openAddModal() {
+        $('#modalTitle').textContent = '添加术语';
+        ['inputTermCN','inputTermEN','inputTermDesc','inputTermCat'].forEach(id => $('#'+id).value='');
+        $('#inputEditId').value = '';
+        $('#modalOverlay').style.display = 'flex';
+        $('#inputTermCN').focus();
+    }
+    function openEditModal(id) {
+        const t = termBase.find(t => t.id === id);
+        if (!t) return;
+        $('#modalTitle').textContent = '编辑术语';
+        $('#inputTermCN').value = t.chinese || '';
+        $('#inputTermEN').value = t.english || '';
+        $('#inputTermDesc').value = t.description || '';
+        $('#inputTermCat').value = t.category || '';
+        $('#inputEditId').value = id;
+        $('#modalOverlay').style.display = 'flex';
+    }
+    function closeModal() { $('#modalOverlay').style.display = 'none'; }
+    function saveModal() {
+        const cn = $('#inputTermCN').value.trim();
+        const en = $('#inputTermEN').value.trim();
+        if (!cn && !en) { showToast('至少填写中文或英文', 'error'); return; }
+        const desc = $('#inputTermDesc').value.trim();
+        const cat = $('#inputTermCat').value.trim();
+        const editId = $('#inputEditId').value;
+        if (editId) { updateTerm(editId, cn, en, desc, cat); showToast('已更新', 'success'); }
+        else { addTerm(cn, en, desc, cat); showToast('已添加', 'success'); }
+        closeModal();
+        renderTermBase($('#searchInput').value);
+        performGlobalMatch();
+    }
 
-            function startRecording() {
-                if (isRecording) return;
-                if (!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)) {
-                    showToast('浏览器不支持语音识别，请使用 Chrome 或 Edge', 'error');
-                    return;
-                }
-                if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
-                    showToast('语音识别需要 HTTPS 或 localhost 环境', 'error');
-                    return;
-                }
-                try {
-                    recognition = getSpeechRecognition();
-                    if (!recognition) { showToast('无法初始化语音识别', 'error'); return; }
-                    recognition.lang = currentLang;
-
-                    recognition.onstart = () => {
-                        isRecording = true;
-                        updateRecordButton();
-                        statusIndicator.textContent = '🔴 录音中…';
-                        statusIndicator.style.color = '#f54a4a';
-                    };
-
-                    recognition.onend = () => {
-                        if (isRecording && recognition) {
-                            try { recognition.start(); } catch (e) {}
-                        } else {
-                            isRecording = false;
-                            updateRecordButton();
-                            statusIndicator.textContent = '⚪ 已停止';
-                            statusIndicator.style.color = '';
-                            // 录音结束时把暂存文本纳入stable
-                            if (interimText.trim()) {
-                                stableText += (stableText ? ' ' : '') + interimText.trim();
-                                interimText = '';
-                                performGlobalMatch();
-                            }
-                        }
-                    };
-
-                    recognition.onerror = (event) => {
-                        console.error('Speech error:', event.error);
-                        if (event.error === 'not-allowed') showToast('麦克风权限被拒绝', 'error');
-                        if (event.error === 'no-speech') return;
-                        if (event.error === 'aborted') { /* 手动停止 */ }
-                        else showToast('语音识别错误: ' + event.error, 'error');
-                    };
-
-                    recognition.onresult = (event) => {
-                        let newStable = '';
-                        let newInterim = '';
-                        for (let i = 0; i < event.results.length; i++) {
-                            const result = event.results[i];
-                            if (result.isFinal) {
-                                newStable += result[0].transcript;
-                            } else {
-                                newInterim += result[0].transcript;
-                            }
-                        }
-                        // 更新stable
-                        if (newStable && newStable !== stableText) {
-                            stableText = newStable;
-                            performGlobalMatch();
-                        }
-                        interimText = newInterim;
-                        updateTranscriptHighlight();
-                    };
-
-                    recognition.start();
-                } catch (e) {
-                    console.error(e);
-                    showToast('启动录音失败', 'error');
-                    isRecording = false;
-                    updateRecordButton();
+    // 批量导入
+    function handleBatchFile(file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const text = e.target.result;
+            let parsed = [];
+            if (file.name.endsWith('.json')) {
+                try { parsed = JSON.parse(text).map(i => ({ chinese:i.chinese||i.cn||'', english:i.english||i.en||'', description:i.description||i.desc||'', category:i.category||i.cat||'' })); } catch(ex) { showToast('JSON解析失败','error'); return; }
+            } else {
+                const lines = text.split(/\r?\n/).filter(l => l.trim());
+                const start = lines[0] && /中文|english|术语/i.test(lines[0]) ? 1 : 0;
+                for (let i=start; i<lines.length; i++) {
+                    const cols = lines[i].split(',').map(c => c.replace(/^"(.*)"$/,'$1'));
+                    if (cols.length>=2 && (cols[0]||cols[1])) parsed.push({ chinese:(cols[0]||'').trim(), english:(cols[1]||'').trim(), description:(cols[2]||'').trim(), category:(cols[3]||'').trim() });
                 }
             }
+            parsed.forEach(p => addTerm(p.chinese, p.english, p.description, p.category));
+            showToast(`已导入 ${parsed.length} 条`, 'success');
+            renderTermBase($('#searchInput').value);
+            performGlobalMatch();
+        };
+        reader.readAsText(file);
+    }
 
-            function stopRecording() {
+    // ---------- 核心：术语匹配与高亮 ----------
+    function performGlobalMatch() {
+        matchedTermsMap.clear();
+        matchedTermsOrder.length = 0;
+        const fullText = stableText + (interimText ? ' ' + interimText : '');
+        if (!fullText.trim()) {
+            renderTermsPanel();
+            updateTranscriptHighlight();
+            return;
+        }
+        const lowerFull = fullText.toLowerCase();
+        for (const term of termBase) {
+            let exactFound = false;
+            for (const text of [term.chinese, term.english, term.english?.toLowerCase()]) {
+                if (text && lowerFull.includes(text.toLowerCase())) {
+                    exactFound = true;
+                    const key = term.id + '_exact';
+                    if (!matchedTermsMap.has(key)) {
+                        matchedTermsMap.set(key, { term, matchType: 'exact', firstSeenIndex: matchedTermsOrder.length });
+                        matchedTermsOrder.push(key);
+                    }
+                    break;
+                }
+            }
+            if (exactFound) continue;
+            const normFull = normalizeText(fullText);
+            const normCN = normalizeText(term.chinese || '');
+            const normEN = normalizeText(term.english || '');
+            if ((normCN && normFull.includes(normCN)) || (normEN && normFull.includes(normEN))) {
+                const key = term.id + '_fuzzy';
+                if (!matchedTermsMap.has(key)) {
+                    matchedTermsMap.set(key, { term, matchType: 'fuzzy', firstSeenIndex: matchedTermsOrder.length });
+                    matchedTermsOrder.push(key);
+                }
+            }
+        }
+        renderTermsPanel();
+        updateTranscriptHighlight();
+    }
+
+    function renderTermsPanel() {
+        const list = $('#termsList');
+        if (matchedTermsOrder.length === 0) {
+            list.innerHTML = '<div class="terms-list-empty">未匹配到术语</div>';
+            $('#badgeTermCount').textContent = '0';
+            return;
+        }
+        let html = '';
+        matchedTermsOrder.forEach((key) => {
+            const info = matchedTermsMap.get(key);
+            if (!info) return;
+            const { term, matchType } = info;
+            const matchLabel = matchType === 'exact' ? '精准' : '模糊';
+            const matchClass = matchType === 'exact' ? 'match-exact' : 'match-fuzzy';
+            html += `<div class="term-card" data-term-id="${term.id}">
+                <div class="term-main"><span>${escapeHTML(term.chinese||'—')}</span><span class="term-separator">|</span><span>${escapeHTML(term.english||'—')}</span><span class="match-type ${matchClass}">${matchLabel}</span></div>
+                ${term.description ? `<div class="term-desc">${escapeHTML(term.description)}</div>` : ''}
+                ${term.category ? `<span class="term-category">${escapeHTML(term.category)}</span>` : ''}
+            </div>`;
+        });
+        list.innerHTML = html;
+        $('#badgeTermCount').textContent = matchedTermsOrder.length;
+        if (autoScrollTerms) {
+            requestAnimationFrame(() => {
+                const last = list.querySelector('.term-card:last-child');
+                if (last) last.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            });
+        }
+    }
+
+    function updateTranscriptHighlight() {
+        let displayText = stableText;
+        if (interimText) displayText += '\n' + interimText;
+        const area = $('#transcriptArea');
+        if (!displayText.trim()) {
+            area.innerHTML = '<div class="transcript-placeholder">点击「开始录音」按钮…</div>';
+            $('#badgeWordCount').textContent = '0 字';
+            return;
+        }
+        const items = [];
+        for (const [key, info] of matchedTermsMap) {
+            const t = info.term;
+            if (t.chinese) items.push({ text: t.chinese, type: info.matchType, tid: t.id });
+            if (t.english) {
+                items.push({ text: t.english, type: info.matchType, tid: t.id });
+                if (t.english.toLowerCase() !== t.english) items.push({ text: t.english.toLowerCase(), type: info.matchType, tid: t.id });
+            }
+        }
+        const unique = [];
+        const seen = new Set();
+        items.forEach(i => { const k = i.text+'|'+i.type; if(!seen.has(k)){ seen.add(k); unique.push(i); } });
+        unique.sort((a,b) => b.text.length - a.text.length);
+
+        let html = escapeHTML(displayText);
+        const used = [];
+        const spans = [];
+        unique.forEach(item => {
+            const escaped = escapeHTML(item.text);
+            const lowerHtml = html.toLowerCase();
+            const lowerTerm = escaped.toLowerCase();
+            let from = 0;
+            while (true) {
+                const idx = lowerHtml.indexOf(lowerTerm, from);
+                if (idx === -1) break;
+                let overlap = false;
+                for (const [s,e] of used) if (idx<e && idx+lowerTerm.length>s) { overlap=true; break; }
+                if (!overlap) {
+                    const orig = html.slice(idx, idx+escaped.length);
+                    const cls = item.type==='fuzzy' ? 'highlight-term fuzzy' : 'highlight-term';
+                    const span = `<span class="${cls}" data-term-id="${item.tid}">${orig}</span>`;
+                    spans.push({ idx, len: escaped.length, span });
+                    used.push([idx, idx+escaped.length]);
+                    from = idx + escaped.length;
+                } else from = idx + 1;
+            }
+        });
+        spans.sort((a,b) => b.idx - a.idx);
+        spans.forEach(s => { html = html.slice(0, s.idx) + s.span + html.slice(s.idx + s.len); });
+        if (interimText) {
+            const escInterim = escapeHTML(interimText);
+            const iIdx = html.lastIndexOf(escInterim);
+            if (iIdx >= 0 && (html.lastIndexOf('<span') < iIdx || html.indexOf('<span') === -1)) {
+                html = html.slice(0, iIdx) + `<span class="interim-text">${escInterim}</span>` + html.slice(iIdx + escInterim.length);
+            }
+        }
+        area.innerHTML = html;
+        $('#badgeWordCount').textContent = displayText.replace(/\s/g,'').length + ' 字';
+        area.querySelectorAll('.highlight-term').forEach(el => {
+            el.onclick = () => {
+                const card = document.querySelector(`.term-card[data-term-id="${el.dataset.termId}"]`);
+                if (card) {
+                    card.scrollIntoView({ behavior:'smooth', block:'center' });
+                    card.classList.add('new-highlight');
+                    setTimeout(() => card.classList.remove('new-highlight'), 1200);
+                }
+            };
+        });
+    }
+
+    // ---------- 语音识别（带智能标点） ----------
+    function getSpeechRecognition() {
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) return null;
+        const rec = new SR();
+        rec.continuous = true;
+        rec.interimResults = true;
+        rec.lang = currentLang;
+        rec.maxAlternatives = 1;
+        return rec;
+    }
+
+    function startRecording() {
+        if (isRecording) return;
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) { showToast('浏览器不支持语音识别', 'error'); return; }
+        if (location.protocol !== 'https:' && location.hostname !== 'localhost') { showToast('需要 HTTPS 或 localhost', 'error'); return; }
+        recognition = getSpeechRecognition();
+        if (!recognition) return;
+
+        recognition.onstart = () => {
+            isRecording = true;
+            $('#btnRecord').className = 'btn btn-danger btn-recording';
+            $('#btnRecordIcon').innerHTML = '<span class="recording-dot"></span>';
+            $('#btnRecordText').textContent = '停止录音';
+            $('#statusIndicator').textContent = '🔴 录音中…';
+            $('#statusIndicator').style.color = '#f54a4a';
+        };
+
+        recognition.onend = () => {
+            if (isRecording && recognition) {
+                try { recognition.start(); } catch(e) {}
+            } else {
                 isRecording = false;
                 updateRecordButton();
-                if (recognition) {
-                    try { recognition.stop(); } catch (e) {}
-                    recognition = null;
-                }
-                // 纳入interim
+                // 停止时如果有未确认文本，追加到 stableText
                 if (interimText.trim()) {
-                    stableText += (stableText ? ' ' : '') + interimText.trim();
+                    appendFinalText(interimText.trim());
                     interimText = '';
                     performGlobalMatch();
                 }
-                statusIndicator.textContent = '⚪ 已停止';
-                statusIndicator.style.color = '';
             }
+        };
 
-            function updateRecordButton() {
-                if (isRecording) {
-                    btnRecord.className = 'btn btn-danger btn-recording';
-                    btnRecordIcon.innerHTML = '<span class="recording-dot"></span>';
-                    btnRecordText.textContent = '停止录音';
-                } else {
-                    btnRecord.className = 'btn btn-primary';
-                    btnRecordIcon.textContent = '🎤';
-                    btnRecordText.textContent = '开始录音';
-                }
-            }
+        recognition.onerror = (e) => {
+            if (e.error === 'not-allowed') showToast('麦克风权限被拒','error');
+            else if (e.error !== 'no-speech' && e.error !== 'aborted') showToast('语音识别错误: '+e.error, 'error');
+        };
 
-            // 导出DOCX
-            function exportToDocx() {
-                if (!stableText.trim()) { showToast('没有可导出的文本', 'error'); return; }
-                let bodyHTML = '';
-                const paragraphs = stableText.split(/\n+/);
-                paragraphs.forEach(para => {
-                    if (!para.trim()) return;
-                    let highlightedPara = escapeHTML(para);
-                    const allMatches = [];
-                    for (const [key, info] of matchedTermsMap) {
-                        const t = info.term;
-                        if (t.chinese) allMatches.push({ text: t.chinese, matchType: info.matchType });
-                        if (t.english) allMatches.push({ text: t.english, matchType: info.matchType });
+        recognition.onresult = (event) => {
+            // 处理所有已确认（final）的片段
+            for (let i = 0; i < event.results.length; i++) {
+                const result = event.results[i];
+                if (result.isFinal && i > lastProcessedFinalIndex) {
+                    const transcript = result[0].transcript.trim();
+                    if (transcript) {
+                        appendFinalText(transcript);
                     }
-                    // 去重排序
-                    const uniqueM = [];
-                    const seenM = new Set();
-                    allMatches.forEach(m => {
-                        if (!seenM.has(m.text)) { seenM.add(m.text); uniqueM.push(m); }
-                    });
-                    uniqueM.sort((a,b) => b.text.length - a.text.length);
-                    uniqueM.forEach(m => {
-                        const escaped = escapeHTML(m.text);
-                        const regex = new RegExp(escaped.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-                        highlightedPara = highlightedPara.replace(regex, `<span style="background:#fff3b8;">${escaped}</span>`);
-                    });
-                    bodyHTML += `<p style="line-height:1.8;margin:6px 0;">${highlightedPara}</p>`;
-                });
-
-                let termsTable = '';
-                if (matchedTermsOrder.length > 0) {
-                    termsTable = '<h3>匹配术语表</h3><table border="1" cellpadding="6" style="border-collapse:collapse;"><tr style="background:#f5f6f8;"><th>#</th><th>中文</th><th>英文</th><th>解释</th><th>分类</th><th>匹配</th></tr>';
-                    matchedTermsOrder.forEach((key, idx) => {
-                        const info = matchedTermsMap.get(key);
-                        if (!info) return;
-                        const t = info.term;
-                        termsTable += `<tr><td>${idx+1}</td><td>${escapeHTML(t.chinese||'')}</td><td>${escapeHTML(t.english||'')}</td><td>${escapeHTML(t.description||'')}</td><td>${escapeHTML(t.category||'')}</td><td>${info.matchType}</td></tr>`;
-                    });
-                    termsTable += '</table>';
+                    lastProcessedFinalIndex = i;
                 }
-
-                const fullHTML = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><title>ASR转写</title></head><body style="font-family:'PingFang SC',sans-serif;padding:20px;"><h2>📝 ASR 转写记录</h2><p style="color:#888;">导出时间：${new Date().toLocaleString()}</p><hr>${bodyHTML}${termsTable}</body></html>`;
-                const blob = new Blob([fullHTML], { type: 'application/msword;charset=UTF-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `ASR转写_${new Date().toISOString().slice(0,10)}.doc`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                showToast('导出成功', 'success');
             }
-
-            // 事件绑定
-            navItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const page = item.dataset.page;
-                    navItems.forEach(n => n.classList.remove('active'));
-                    item.classList.add('active');
-                    pageWorkbench.classList.toggle('active', page === 'workbench');
-                    pageTermbase.classList.toggle('active', page === 'termbase');
-                    if (page === 'termbase') renderTermBase(searchInput.value);
-                });
-            });
-
-            btnRecord.addEventListener('click', () => isRecording ? stopRecording() : startRecording());
-            langOptions.forEach(opt => {
-                opt.addEventListener('click', () => {
-                    if (isRecording) { showToast('请先停止录音再切换语言', 'info'); return; }
-                    langOptions.forEach(o => o.classList.remove('active'));
-                    opt.classList.add('active');
-                    currentLang = opt.dataset.lang;
-                    statusIndicator.textContent = `⚪ 就绪 (${currentLang === 'zh-CN' ? '中文' : 'English'})`;
-                });
-            });
-            btnExport.addEventListener('click', exportToDocx);
-            btnClearTranscript.addEventListener('click', () => {
-                if (isRecording && !confirm('正在录音，确定清空吗？')) return;
-                stableText = ''; interimText = '';
-                matchedTermsMap.clear(); matchedTermsOrder.length = 0;
-                updateTranscriptHighlight();
-                renderTermsPanel();
-                showToast('转写文本已清空', 'info');
-            });
-            searchInput.addEventListener('input', () => renderTermBase(searchInput.value));
-            btnAddTerm.addEventListener('click', openAddModal);
-            btnBatchUpload.addEventListener('click', () => batchFileInput.click());
-            batchFileInput.addEventListener('change', (e) => {
-                if (e.target.files[0]) { handleBatchFile(e.target.files[0]); batchFileInput.value = ''; }
-            });
-            btnModalCancel.addEventListener('click', closeModal);
-            btnModalSave.addEventListener('click', saveModal);
-            modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
-
-            // 键盘快捷键
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    if (modalOverlay.style.display === 'flex') closeModal();
-                    else if (isRecording) stopRecording();
+            // 重组暂未确认的临时文本
+            let newInterim = '';
+            for (let i = 0; i < event.results.length; i++) {
+                if (!event.results[i].isFinal) {
+                    newInterim += event.results[i][0].transcript;
                 }
-                if (e.ctrlKey && e.shiftKey && e.key === 'R') {
-                    e.preventDefault();
-                    isRecording ? stopRecording() : startRecording();
-                }
-            });
-
-            // 初始化
-            loadTermBase();
-            renderTermBase();
-            updateTranscriptHighlight();
-            renderTermsPanel();
-            statusIndicator.textContent = `⚪ 就绪 (${currentLang === 'zh-CN' ? '中文' : 'English'})`;
-            if (!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)) {
-                statusIndicator.textContent = '⚠️ 浏览器不支持语音识别';
-                statusIndicator.style.color = '#f5a623';
             }
-            console.log('✅ ASR工作台已启动，术语库已加载', termBase.length, '条');
-        })();
-    </script>
+            interimText = newInterim;
+            // 每次收到结果都立即进行术语匹配（包含所有已确认和未确认文本）
+            performGlobalMatch();
+        };
+
+        recognition.start();
+    }
+
+    // 将一段最终的文本追加到 stableText，并自动添加标点
+    function appendFinalText(text) {
+        const now = Date.now();
+        // 如果与上一段停顿超过 2 秒，则换行
+        if (lastFinalTime && (now - lastFinalTime) > 2000) {
+            stableText += '\n\n' + text + '。';
+        } else if (lastFinalTime) {
+            // 短停顿，用逗号或句号？这里统一用句号更符合中文习惯
+            stableText += (stableText ? ' ' : '') + text + '。';
+        } else {
+            stableText = text + '。';
+        }
+        lastFinalTime = now;
+    }
+
+    function stopRecording() {
+        isRecording = false;
+        if (recognition) { recognition.stop(); recognition = null; }
+        updateRecordButton();
+        if (interimText.trim()) {
+            appendFinalText(interimText.trim());
+            interimText = '';
+            performGlobalMatch();
+        }
+    }
+
+    function updateRecordButton() {
+        $('#btnRecord').className = 'btn btn-primary';
+        $('#btnRecordIcon').textContent = '🎤';
+        $('#btnRecordText').textContent = '开始录音';
+        $('#statusIndicator').textContent = '⚪ 已停止';
+        $('#statusIndicator').style.color = '';
+    }
+
+    // 导出 DOCX
+    function exportDocx() {
+        if (!stableText.trim()) { showToast('无文本可导出','error'); return; }
+        let body = '';
+        stableText.split(/\n+/).forEach(para => {
+            if (!para.trim()) return;
+            let hp = escapeHTML(para);
+            const matches = [];
+            matchedTermsMap.forEach(info => {
+                const t = info.term;
+                if (t.chinese) matches.push({ text:t.chinese, type:info.matchType });
+                if (t.english) matches.push({ text:t.english, type:info.matchType });
+            });
+            const uniq = [];
+            const seen = new Set();
+            matches.forEach(m => { if(!seen.has(m.text)){ seen.add(m.text); uniq.push(m); } });
+            uniq.sort((a,b)=>b.text.length-a.text.length);
+            uniq.forEach(m => {
+                const esc = escapeHTML(m.text);
+                const regex = new RegExp(esc.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+                hp = hp.replace(regex, `<span style="background:#fff3b8">${esc}</span>`);
+            });
+            body += `<p style="line-height:1.8;margin:6px 0;">${hp}</p>`;
+        });
+        let termsTable = '';
+        if (matchedTermsOrder.length) {
+            termsTable = '<h3>匹配术语表</h3><table border="1" cellpadding="6" style="border-collapse:collapse;"><tr style="background:#f5f6f8;"><th>#</th><th>中文</th><th>英文</th><th>解释</th><th>分类</th><th>匹配</th></tr>';
+            matchedTermsOrder.forEach((key,idx) => {
+                const info = matchedTermsMap.get(key);
+                if (!info) return;
+                const t = info.term;
+                termsTable += `<tr><td>${idx+1}</td><td>${escapeHTML(t.chinese||'')}</td><td>${escapeHTML(t.english||'')}</td><td>${escapeHTML(t.description||'')}</td><td>${escapeHTML(t.category||'')}</td><td>${info.matchType}</td></tr>`;
+            });
+            termsTable += '</table>';
+        }
+        const full = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><title>ASR转写</title></head><body style="font-family:'PingFang SC',sans-serif;padding:20px;"><h2>📝 ASR 转写记录</h2><p>${new Date().toLocaleString()}</p><hr>${body}${termsTable}</body></html>`;
+        const blob = new Blob([full], { type:'application/msword;charset=UTF-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `ASR转写_${new Date().toISOString().slice(0,10)}.doc`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+        showToast('导出成功','success');
+    }
+
+    // 重置识别状态
+    function resetRecognition() {
+        stableText = '';
+        interimText = '';
+        lastProcessedFinalIndex = -1;
+        lastFinalTime = 0;
+        matchedTermsMap.clear();
+        matchedTermsOrder.length = 0;
+    }
+
+    // 事件绑定
+    $$('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const page = item.dataset.page;
+            $$('.nav-item').forEach(n => n.classList.remove('active'));
+            item.classList.add('active');
+            $('#page-workbench').classList.toggle('active', page==='workbench');
+            $('#page-termbase').classList.toggle('active', page==='termbase');
+            if (page==='termbase') renderTermBase($('#searchInput').value);
+        });
+    });
+
+    $('#btnRecord').addEventListener('click', () => isRecording ? stopRecording() : startRecording());
+    $$('.lang-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+            if (isRecording) { showToast('请先停止录音','info'); return; }
+            $$('.lang-option').forEach(o => o.classList.remove('active'));
+            opt.classList.add('active');
+            currentLang = opt.dataset.lang;
+            $('#statusIndicator').textContent = `⚪ 就绪 (${currentLang==='zh-CN'?'中文':'English'})`;
+        });
+    });
+    $('#btnExport').addEventListener('click', exportDocx);
+    $('#btnClearTranscript').addEventListener('click', () => {
+        if (isRecording && !confirm('正在录音，确定清空吗？')) return;
+        resetRecognition();
+        performGlobalMatch();
+        showToast('已清空','info');
+    });
+    $('#searchInput').addEventListener('input', () => renderTermBase($('#searchInput').value));
+    $('#btnAddTerm').addEventListener('click', openAddModal);
+    $('#btnBatchUpload').addEventListener('click', () => $('#batchFileInput').click());
+    $('#batchFileInput').addEventListener('change', e => {
+        if (e.target.files[0]) { handleBatchFile(e.target.files[0]); e.target.value = ''; }
+    });
+    $('#btnModalCancel').addEventListener('click', closeModal);
+    $('#btnModalSave').addEventListener('click', saveModal);
+    $('#modalOverlay').addEventListener('click', e => { if (e.target === $('#modalOverlay')) closeModal(); });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            if ($('#modalOverlay').style.display === 'flex') closeModal();
+            else if (isRecording) stopRecording();
+        }
+        if (e.ctrlKey && e.shiftKey && e.key === 'R') {
+            e.preventDefault();
+            isRecording ? stopRecording() : startRecording();
+        }
+    });
+    $('#termsList').addEventListener('scroll', () => {
+        const atBottom = $('#termsList').scrollHeight - $('#termsList').scrollTop - $('#termsList').clientHeight < 40;
+        if (!atBottom) {
+            autoScrollTerms = false;
+            if (termsScrollTimeout) clearTimeout(termsScrollTimeout);
+            termsScrollTimeout = setTimeout(() => { autoScrollTerms = true; }, 3000);
+        } else autoScrollTerms = true;
+    });
+
+    // 初始化
+    loadTermBase();
+    renderTermBase();
+    performGlobalMatch();
+    updateTranscriptHighlight();
+    if (!(window.SpeechRecognition || window.webkitSpeechRecognition)) {
+        $('#statusIndicator').textContent = '⚠️ 浏览器不支持语音识别';
+        $('#statusIndicator').style.color = '#f5a623';
+    }
+})();
+</script>
 </body>
 </html>
