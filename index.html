@@ -120,7 +120,7 @@
         <div class="nav-item active" data-page="workbench"><span class="nav-icon">⚡</span> <span>工作台</span></div>
         <div class="nav-item" data-page="termbase"><span class="nav-icon">📚</span> <span>术语库</span></div>
     </nav>
-    <div class="sidebar-footer">v2.2 · 智能标点</div>
+    <div class="sidebar-footer">v2.3 · 双语标点</div>
 </aside>
 
 <main class="main-content">
@@ -197,13 +197,9 @@
     let isRecording = false;
     let recognition = null;
 
-    // 带标点的最终文本
     let stableText = '';
-    // 暂存未确认的临时文本
     let interimText = '';
-    // 记录已经处理的 final 结果索引
     let lastProcessedFinalIndex = -1;
-    // 记录上一个 final 片段的时间戳，用于判断停顿
     let lastFinalTime = 0;
 
     let matchedTermsMap = new Map();
@@ -352,7 +348,7 @@
         reader.readAsText(file);
     }
 
-    // ---------- 核心：术语匹配与高亮 ----------
+    // ---------- 术语匹配与高亮 ----------
     function performGlobalMatch() {
         matchedTermsMap.clear();
         matchedTermsOrder.length = 0;
@@ -365,6 +361,7 @@
         const lowerFull = fullText.toLowerCase();
         for (const term of termBase) {
             let exactFound = false;
+            // 精准匹配：检查中文、英文原文、英文小写
             for (const text of [term.chinese, term.english, term.english?.toLowerCase()]) {
                 if (text && lowerFull.includes(text.toLowerCase())) {
                     exactFound = true;
@@ -377,6 +374,7 @@
                 }
             }
             if (exactFound) continue;
+            // 模糊匹配：标准化后包含
             const normFull = normalizeText(fullText);
             const normCN = normalizeText(term.chinese || '');
             const normEN = normalizeText(term.english || '');
@@ -491,7 +489,7 @@
         });
     }
 
-    // ---------- 语音识别（带智能标点） ----------
+    // ---------- 语音识别（带智能标点 & 双语支持） ----------
     function getSpeechRecognition() {
         const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SR) return null;
@@ -526,7 +524,6 @@
             } else {
                 isRecording = false;
                 updateRecordButton();
-                // 停止时如果有未确认文本，追加到 stableText
                 if (interimText.trim()) {
                     appendFinalText(interimText.trim());
                     interimText = '';
@@ -541,7 +538,6 @@
         };
 
         recognition.onresult = (event) => {
-            // 处理所有已确认（final）的片段
             for (let i = 0; i < event.results.length; i++) {
                 const result = event.results[i];
                 if (result.isFinal && i > lastProcessedFinalIndex) {
@@ -552,7 +548,6 @@
                     lastProcessedFinalIndex = i;
                 }
             }
-            // 重组暂未确认的临时文本
             let newInterim = '';
             for (let i = 0; i < event.results.length; i++) {
                 if (!event.results[i].isFinal) {
@@ -560,24 +555,29 @@
                 }
             }
             interimText = newInterim;
-            // 每次收到结果都立即进行术语匹配（包含所有已确认和未确认文本）
             performGlobalMatch();
         };
 
         recognition.start();
     }
 
-    // 将一段最终的文本追加到 stableText，并自动添加标点
     function appendFinalText(text) {
         const now = Date.now();
-        // 如果与上一段停顿超过 2 秒，则换行
+        const isChinese = currentLang.startsWith('zh');
+        const punct = isChinese ? '。' : '. ';
+        let processedText = text.trim();
+
+        // 英文长停顿后首字母大写
+        if (!isChinese && lastFinalTime && (now - lastFinalTime) > 2000) {
+            processedText = processedText.charAt(0).toUpperCase() + processedText.slice(1);
+        }
+
         if (lastFinalTime && (now - lastFinalTime) > 2000) {
-            stableText += '\n\n' + text + '。';
+            stableText += '\n\n' + processedText + punct;
         } else if (lastFinalTime) {
-            // 短停顿，用逗号或句号？这里统一用句号更符合中文习惯
-            stableText += (stableText ? ' ' : '') + text + '。';
+            stableText += (stableText ? ' ' : '') + processedText + punct;
         } else {
-            stableText = text + '。';
+            stableText = processedText + punct;
         }
         lastFinalTime = now;
     }
@@ -646,7 +646,6 @@
         showToast('导出成功','success');
     }
 
-    // 重置识别状态
     function resetRecognition() {
         stableText = '';
         interimText = '';
